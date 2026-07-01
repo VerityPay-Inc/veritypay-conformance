@@ -4,7 +4,7 @@
 
 This roadmap is **not date-driven**. Milestones complete when their success criteria are met—not when a quarter ends. Progress aligns with [Phase II Platform Plan](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/docs/05-governance/PHASE_II_PLATFORM_PLAN.md) and the conformance role defined in [CONFORMANCE_MODEL.md](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/docs/03-development/CONFORMANCE_MODEL.md).
 
-**Current milestone:** **F — Produce conformance report** *(Milestone E complete)*
+**Current milestone:** **G — CI integration** *(Milestone F complete)*
 
 ---
 
@@ -17,7 +17,7 @@ This roadmap is **not date-driven**. Milestones complete when their success crit
 | **C** | Adapter contract | **Complete** |
 | **D** | Run reference oracle | **Complete** |
 | **E** | Compare implementation output | **Complete** |
-| **F** | Produce conformance report | Not started |
+| **F** | Produce conformance report | **Complete** |
 | **G** | CI integration | Not started |
 
 Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and **Not included** so scope stays explicit.
@@ -396,12 +396,39 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 - HTML or markdown export
 - File output
 
+### F.3 — JSON report renderer (complete)
+
+**Goal:** Render `ConformanceReport` as stable machine-readable JSON for CI and automation.
+
+**Outputs:**
+
+- `JsonReportRenderer::render` in `vp-conformance-report`
+- `ReportRenderError` for serialization failures
+- Summary and per-scenario results with oracle/implementation summaries
+- Tests in [`crates/vp-conformance-report/tests/json_report_renderer.rs`](crates/vp-conformance-report/tests/json_report_renderer.rs)
+
 **Success criteria:**
 
-- [ ] Full suite run produces a single report artifact
-- [ ] Report lists per-scenario results with oracle vs implementation summary
-- [ ] Report does not alter verification outcomes
-- [ ] Reviewer can understand failures without reading harness source first
+- [x] JSON uses deterministic field names and report order
+- [x] Verdicts and outcomes use lowercase string values
+- [x] Output parses as valid JSON with `serde_json`
+- [x] `ConformanceReport` remains presentation-independent
+
+**Not included:**
+
+- CLI integration
+- File output
+- CI workflows
+- Schema registry
+
+**Success criteria:**
+
+- [x] Full suite run produces a single report artifact (`ConformanceReport`)
+- [x] Report lists per-scenario results with oracle vs implementation summary
+- [x] Report does not alter verification outcomes
+- [x] Reviewer can understand failures without reading harness source first
+
+**Milestone status:** **Complete** (F.1 + F.2 + F.3).
 
 **Not included:**
 
