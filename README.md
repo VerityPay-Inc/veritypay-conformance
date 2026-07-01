@@ -4,7 +4,7 @@
 
 This repository is part of the **Verity Specification Platform**. It runs **VP-CS (VerityPay Conformance Scenarios)** against independent implementations and compares their outcomes to the **reference interpreter**. It does **not** define protocol meaning.
 
-**Repository maturity:** **Scaffold** — purpose, architecture, roadmap, and contribution boundaries documented; no runner code yet.
+**Repository maturity:** **Scaffold** — purpose, architecture, roadmap, and contribution boundaries documented; implementation language chosen ([ADR-0001](docs/adrs/0001-implementation-language.md)); no runner code yet.
 
 ---
 
@@ -16,6 +16,8 @@ This repository is part of the **Verity Specification Platform**. It runs **VP-C
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Long-term conformance pipeline—conceptual, not executable code |
 | [ROADMAP.md](ROADMAP.md) | Capability milestones A–G with success criteria |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute to the conformance suite |
+| [docs/adrs/README.md](docs/adrs/README.md) | Architecture Decision Records |
+| [docs/adrs/0001-implementation-language.md](docs/adrs/0001-implementation-language.md) | ADR-0001 — Implementation language (Rust) |
 | [LICENSE](LICENSE) | License terms for this repository |
 
 ---

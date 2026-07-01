@@ -33,9 +33,10 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 **Outputs:**
 
 - [README.md](README.md) — purpose, boundaries, links to sibling repos
-- [ARCHITECTURE.md](ARCHITECTURE.md) — conformance pipeline (conceptual; no implementation language)
+- [ARCHITECTURE.md](ARCHITECTURE.md) — conformance pipeline (conceptual; Rust per ADR-0001)
 - [ROADMAP.md](ROADMAP.md) — this document with milestones A–G
 - [CONTRIBUTING.md](CONTRIBUTING.md) — contributor expectations and specification boundary
+- [docs/adrs/0001-implementation-language.md](docs/adrs/0001-implementation-language.md) — ADR-0001: Rust (Accepted)
 - [LICENSE](LICENSE) — license terms
 - Repository maturity declared: **Scaffold**
 
@@ -60,7 +61,7 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 
 **Goal:** Load **VP-CS scenario fixtures** from a validated specification checkout into a normalized internal representation.
 
-**Prerequisite:** `veritypay-tooling` readiness; validated `veritypay-spec` sibling or pin.
+**Prerequisite:** [ADR-0001](docs/adrs/0001-implementation-language.md) — Rust (Accepted); `veritypay-tooling` readiness; validated `veritypay-spec` sibling or pin.
 
 **Outputs:**
 
