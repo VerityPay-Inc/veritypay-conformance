@@ -4,7 +4,7 @@
 
 This repository is part of the **Verity Specification Platform**. It runs **VP-CS (VerityPay Conformance Scenarios)** against independent implementations and compares their outcomes to the **reference interpreter**. It does **not** define protocol meaning.
 
-**Repository maturity:** **Workspace bootstrapped** — Cargo workspace per [ADR-0002](docs/adrs/0002-cargo-workspace-architecture.md); pipeline per [ADR-0003](docs/adrs/0003-conformance-architecture.md); public contract per [ADR-0004](docs/adrs/0004-conformance-public-contract.md); placeholder crates compile and CI runs. VP-CS loading, oracle invocation, adapter execution, and comparison not yet implemented.
+**Repository maturity:** **Pipeline wired** — load, oracle, adapter, compare, report, and CLI `run` per [ROADMAP.md](ROADMAP.md); CI integration (Milestone G) in progress.
 
 ---
 
@@ -203,14 +203,35 @@ Build and run:
 
 ```bash
 cargo build -p vp-conformance-cli
-cargo run -p vp-conformance-cli --bin vp-conformance
+cargo run -p vp-conformance-cli --bin vp-conformance -- run \
+  --scenario crates/vp-conformance-scenarios/tests/fixtures/minimal.toml \
+  --adapter stub \
+  --adapter-outcome satisfied \
+  --format human
 ```
 
-Example output:
+Human output (matching stub outcome):
 
 ```
-vp-conformance (bootstrapping)
+Conformance Report
+
+Summary
+-------
+Total: 1
+Passed: 1
+...
+✓ VP-CS-0001
 ```
+
+JSON output:
+
+```bash
+cargo run -p vp-conformance-cli --bin vp-conformance -- run \
+  --scenario crates/vp-conformance-scenarios/tests/fixtures/minimal.toml \
+  --format json
+```
+
+Exit codes: `0` pass, `1` conformance failure, `2` user/CLI error, `3` harness error.
 
 Development checks (from repository root):
 

@@ -18,7 +18,7 @@ This roadmap is **not date-driven**. Milestones complete when their success crit
 | **D** | Run reference oracle | **Complete** |
 | **E** | Compare implementation output | **Complete** |
 | **F** | Produce conformance report | **Complete** |
-| **G** | CI integration | Not started |
+| **G** | CI integration | **In progress** |
 
 Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and **Not included** so scope stays explicit.
 
@@ -449,6 +449,31 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 - CI workflow or documented integration pattern
 - Readiness gate script (fmt, test, smoke run—language TBD)
 - Documentation for running against sibling `veritypay-spec` and `veritypay-reference`
+
+### G.1 — CLI run command (complete)
+
+**Goal:** Expose the conformance pipeline through `vp-conformance run`.
+
+**Outputs:**
+
+- `vp-conformance run --scenario <path> --adapter stub --adapter-outcome <outcome> --format human|json`
+- Pipeline wiring: load → runner → compare → report → render
+- Exit codes: `0` pass, `1` failure, `2` user error, `3` harness error
+- Tests in [`crates/vp-conformance-cli/tests/run_command.rs`](crates/vp-conformance-cli/tests/run_command.rs)
+
+**Success criteria:**
+
+- [x] CLI runs one scenario through existing pipeline components
+- [x] Human and JSON report formats supported
+- [x] Matching stub outcome exits `0`; mismatch exits `1`
+- [x] Invalid input and missing fixtures exit `2`
+
+**Not included:**
+
+- CI workflow changes
+- Multi-scenario suite discovery
+- External implementation adapters
+- File output
 
 **Success criteria:**
 

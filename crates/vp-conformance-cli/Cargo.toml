@@ -9,14 +9,26 @@ authors.workspace = true
 repository.workspace = true
 rust-version.workspace = true
 
+[lib]
+name = "vp_conformance_cli"
+path = "src/lib.rs"
+
 [[bin]]
 name = "vp-conformance"
 path = "src/main.rs"
 
 [dependencies]
+clap = { workspace = true }
+vp-conformance-adapter = { workspace = true }
 vp-conformance-core = { workspace = true }
 vp-conformance-report = { workspace = true }
 vp-conformance-runner = { workspace = true }
+vp-conformance-scenarios = { workspace = true }
+vp-reference-model = { workspace = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }
+vp-reference-model = { workspace = true }
 
 [lints]
 workspace = true
