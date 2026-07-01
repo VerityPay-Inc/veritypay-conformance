@@ -22,7 +22,7 @@ This roadmap is **not date-driven**. Milestones complete when their success crit
 
 Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and **Not included** so scope stays explicit.
 
-**Milestone ordering note:** The **adapter contract** (C) precedes the **reference oracle** (D) so both execution paths share a comparable result shape before comparison (E). Comparison then receives **two results**—implementation and oracle—not a chained execution pipeline.
+**Milestone ordering note:** The **adapter contract** (C) precedes the **reference oracle** (D) so both execution paths share a comparable result shape before comparison (E). Comparison then receives **two results**—implementation and oracle—not a chained execution pipeline. Pipeline stages are defined in [ADR-0003](docs/adrs/0003-conformance-architecture.md).
 
 ---
 
@@ -37,6 +37,8 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 - [ROADMAP.md](ROADMAP.md) — this document with milestones A–G
 - [CONTRIBUTING.md](CONTRIBUTING.md) — contributor expectations and specification boundary
 - [docs/adrs/0001-implementation-language.md](docs/adrs/0001-implementation-language.md) — ADR-0001: Rust (Accepted)
+- [docs/adrs/0002-cargo-workspace-architecture.md](docs/adrs/0002-cargo-workspace-architecture.md) — ADR-0002: Cargo workspace (Accepted)
+- [docs/adrs/0003-conformance-architecture.md](docs/adrs/0003-conformance-architecture.md) — ADR-0003: Conformance pipeline (Accepted)
 - [LICENSE](LICENSE) — license terms
 - Repository maturity declared: **Scaffold**
 
@@ -61,11 +63,11 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 
 **Goal:** Load **VP-CS scenario fixtures** from a validated specification checkout into a normalized internal representation.
 
-**Prerequisite:** [ADR-0001](docs/adrs/0001-implementation-language.md) — Rust (Accepted); `veritypay-tooling` readiness; validated `veritypay-spec` sibling or pin.
+**Prerequisite:** [ADR-0001](docs/adrs/0001-implementation-language.md) — Rust (Accepted); [ADR-0002](docs/adrs/0002-cargo-workspace-architecture.md) — workspace layout (Accepted); [ADR-0003](docs/adrs/0003-conformance-architecture.md) — pipeline (Accepted); `veritypay-tooling` readiness; validated `veritypay-spec` sibling or pin.
 
 **Outputs:**
 
-- Scenario loader component per [ARCHITECTURE.md](ARCHITECTURE.md)
+- **ScenarioLoader** and **ScenarioContext** per [ADR-0003](docs/adrs/0003-conformance-architecture.md) (`vp-conformance-scenarios`, `vp-conformance-core`)
 - Minimal VP-CS fixture format aligned with accepted spec documents
 - Load errors surfaced before oracle or adapter invocation
 
@@ -92,7 +94,7 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 
 **Outputs:**
 
-- Documented adapter contract per [ARCHITECTURE.md](ARCHITECTURE.md)
+- **ImplementationAdapter** contract per [ADR-0003](docs/adrs/0003-conformance-architecture.md) (`vp-conformance-adapter`)
 - Comparable result record (outcome, binding, optional trace) shared by adapters and oracle
 - Stub or minimal adapter implementation for local testing
 - Adapter errors isolated from harness core
@@ -121,7 +123,7 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 
 **Outputs:**
 
-- Reference oracle component wiring `EvaluationContext` → `Interpreter::evaluate` → `VerificationResult` mapped to comparable result
+- **ReferenceOracle** wiring `EvaluationContext` → `Interpreter::evaluate` → `VerificationResult` mapped to comparable result per [ADR-0003](docs/adrs/0003-conformance-architecture.md)
 - Fixture-driven test that oracle produces expected outcome for a minimal scenario
 
 **Success criteria:**
@@ -148,9 +150,8 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 
 **Outputs:**
 
-- Comparison component per [ARCHITECTURE.md](ARCHITECTURE.md)
+- **ComparisonEngine** and **ConformanceResult** per [ADR-0003](docs/adrs/0003-conformance-architecture.md) (pass/fail, expected vs actual outcome, trace differences, metadata)
 - Outcome mismatch detection (`satisfied` / `not_satisfied` / `indeterminate`)
-- Per-scenario pass/fail classification
 
 **Success criteria:**
 
@@ -173,7 +174,7 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 
 **Outputs:**
 
-- Conformance report component summarizing suite run
+- **Report** formatting from **ConformanceResult** records per [ADR-0003](docs/adrs/0003-conformance-architecture.md)
 - Human-readable output for local development
 - Structured export suitable for CI consumption
 - Exit codes mapped to pass/fail summary
@@ -222,8 +223,10 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 
 The conformance suite enters **maintenance and extension** mode: broader VP-CS coverage, richer trace comparison, and Edition-aware scenario sets as spec governance defines them.
 
-**Explicitly deferred:**
+**Explicitly deferred** (see [ADR-0003 — Future extensions](docs/adrs/0003-conformance-architecture.md#future-extensions)):
 
+- Parallel runners and batch execution
+- Golden report snapshots
 - SDK surface for integrators
 - Runtime plugin loading of implementations
 - Replacing `veritypay-reference` as oracle without governance process
