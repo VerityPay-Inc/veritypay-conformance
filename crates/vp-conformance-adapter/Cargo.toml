@@ -11,6 +11,10 @@ rust-version.workspace = true
 
 [dependencies]
 vp-conformance-core = { workspace = true }
+vp-reference-model = { workspace = true }
+
+[dev-dependencies]
+vp-conformance-scenarios = { workspace = true }
 
 [lints]
 workspace = true

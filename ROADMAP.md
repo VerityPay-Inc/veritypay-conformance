@@ -4,7 +4,7 @@
 
 This roadmap is **not date-driven**. Milestones complete when their success criteria are met—not when a quarter ends. Progress aligns with [Phase II Platform Plan](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/docs/05-governance/PHASE_II_PLATFORM_PLAN.md) and the conformance role defined in [CONFORMANCE_MODEL.md](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/docs/03-development/CONFORMANCE_MODEL.md).
 
-**Current milestone:** **B — Load scenario fixtures** *(B.1–B.2 complete; spec-backed VP-CS loading remains open)*
+**Current milestone:** **D — Run reference oracle** *(Milestone C complete)*
 
 ---
 
@@ -14,7 +14,7 @@ This roadmap is **not date-driven**. Milestones complete when their success crit
 |-----------|------|--------|
 | **A** | Repository scaffold | **Complete** |
 | **B** | Load scenario fixtures | **In progress** |
-| **C** | Adapter contract | Not started |
+| **C** | Adapter contract | **Complete** |
 | **D** | Run reference oracle | Not started |
 | **E** | Compare implementation output | Not started |
 | **F** | Produce conformance report | Not started |
@@ -182,21 +182,36 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 
 **Goal:** Define and demonstrate the **implementation adapter** boundary—and the **shared result shape** used by all execution paths.
 
-**Prerequisite:** Milestone B — loaded scenario representation.
+**Prerequisite:** Milestone B — loaded scenario representation (B.2 local fixture loader complete).
+
+### C.1 — Adapter contract (complete)
+
+**Goal:** Define and demonstrate the implementation adapter boundary.
 
 **Outputs:**
 
-- **ImplementationAdapter** contract per [ADR-0003](docs/adrs/0003-conformance-architecture.md) (`vp-conformance-adapter`)
-- Comparable result record (outcome, binding, optional trace) shared by adapters and oracle
-- Stub or minimal adapter implementation for local testing
-- Adapter errors isolated from harness core
+- `ImplementationAdapter`, `AdapterId`, `AdapterError`, `AdapterRunOptions` in `vp-conformance-core`
+- `build_implementation_result` helper for implementation-path [`ComparableResult`](crates/vp-conformance-core/src/comparable_result.rs)
+- `StubAdapter` in `vp-conformance-adapter`
+- Tests in [`crates/vp-conformance-adapter/tests/stub_adapter.rs`](crates/vp-conformance-adapter/tests/stub_adapter.rs)
 
 **Success criteria:**
 
-- [ ] Adapter accepts loaded scenario input per contract
-- [ ] Adapter returns implementation result in the shared comparable shape
-- [ ] At least one stub adapter demonstrates the boundary
-- [ ] Harness core does not embed product-specific verification logic
+- [x] Adapter accepts loaded scenario input per contract (`run(&ScenarioContext)`)
+- [x] Adapter returns implementation result in the shared comparable shape
+- [x] Result path is `ExecutionPath::ImplementationAdapter` with adapter id
+- [x] At least one stub adapter demonstrates the boundary
+- [x] Harness core does not embed product-specific verification logic
+- [x] Adapter execution does not require filesystem paths
+
+**Not included:**
+
+- Reference oracle wiring (Milestone D)
+- Outcome comparison (Milestone E)
+- Production implementation integrations
+- Runner orchestration
+
+**Milestone status:** **Complete** (C.1 satisfies adapter contract success criteria).
 
 **Not included:**
 

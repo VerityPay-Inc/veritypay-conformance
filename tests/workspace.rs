@@ -43,6 +43,7 @@ fn workspace_crates_are_linkable() {
     let binding = context.specification_binding().clone();
     let adapter = StubAdapter::placeholder();
 
+    let implementation = adapter.run(&context).expect("adapter result");
     let oracle = ComparableResult::builder()
         .execution_path(ExecutionPath::reference_oracle())
         .evaluated_claim_id("claim-001")
@@ -50,13 +51,6 @@ fn workspace_crates_are_linkable() {
         .specification_binding(binding.clone())
         .build()
         .expect("oracle");
-    let implementation = ComparableResult::builder()
-        .execution_path(ExecutionPath::implementation_adapter("stub"))
-        .evaluated_claim_id("claim-001")
-        .outcome(Outcome::Satisfied)
-        .specification_binding(binding.clone())
-        .build()
-        .expect("implementation");
     let result = ConformanceResult::builder()
         .scenario_id(context.scenario_id().clone())
         .specification_binding(binding)
@@ -70,8 +64,7 @@ fn workspace_crates_are_linkable() {
         context,
         result,
         ConformanceError::placeholder(),
-        adapter.adapter_id(),
-        adapter.accepts(&sample_context()),
+        adapter.id().as_str(),
         ScenarioLoader::placeholder(),
         ReferenceOracle::placeholder(),
         ComparisonEngine::placeholder(),

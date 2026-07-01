@@ -1,6 +1,9 @@
 //! Shared harness contracts for the VerityPay conformance suite.
 
 pub mod adapter;
+pub mod adapter_error;
+pub mod adapter_id;
+pub mod adapter_run_options;
 pub mod build_error;
 pub mod comparable_result;
 pub mod conformance_result;
@@ -11,7 +14,10 @@ pub mod scenario_context;
 pub mod scenario_id;
 pub mod scenario_metadata;
 
-pub use adapter::ImplementationAdapter;
+pub use adapter::{build_implementation_result, ImplementationAdapter};
+pub use adapter_error::AdapterError;
+pub use adapter_id::AdapterId;
+pub use adapter_run_options::AdapterRunOptions;
 pub use build_error::BuildError;
 pub use comparable_result::{ComparableResult, ComparableResultBuilder, ExecutionPath};
 pub use conformance_result::{ConformanceResult, ConformanceResultBuilder};

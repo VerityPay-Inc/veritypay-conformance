@@ -162,6 +162,8 @@ name = "vp-conformance-adapter"
 version = "0.0.0"
 dependencies = [
  "vp-conformance-core",
+ "vp-conformance-scenarios",
+ "vp-reference-model",
 ]
 
 [[package]]
