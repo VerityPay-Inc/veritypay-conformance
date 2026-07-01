@@ -107,3 +107,49 @@ fn claim_evidence_mismatch_fails_clearly() {
         }
     );
 }
+
+#[test]
+fn spec_published_fixture_format_loads_from_toml() {
+    let contents = r#"
+scenario_id = "VP-CS-0001"
+name = "Minimal claim is satisfied by matching evidence"
+rule_id = "VP-RULE-0001"
+rfc = "VP-RFC-0001"
+protocol_version = "vp-protocol-draft"
+
+[claim]
+claim_id = "claim-001"
+claim_type = "minimal"
+subject = "subject-alpha"
+assertion_type = "minimal"
+assertion_body = "alpha"
+specification_version = "vp-protocol-draft"
+
+[evidence]
+evidence_id = "evidence-001"
+claim_id = "claim-001"
+evidence_type = "document"
+content_type = "document"
+content_body = "alpha"
+
+[expected]
+outcome = "satisfied"
+
+[metadata]
+status = "draft"
+source_rfc = "VP-RFC-0001"
+description = "Minimal claim is satisfied by matching evidence."
+"#;
+
+    let context = ScenarioLoader::new()
+        .load_str(contents, "VP-CS-0001.toml")
+        .expect("spec fixture format");
+
+    assert_eq!(context.scenario_id().as_str(), "VP-CS-0001");
+    assert_eq!(
+        context.specification_binding().protocol_version(),
+        Some("vp-protocol-draft")
+    );
+    assert_eq!(context.claim().assertion.body, "alpha");
+    assert_eq!(context.evidence().content.body, "alpha");
+}

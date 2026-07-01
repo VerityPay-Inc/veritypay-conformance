@@ -1,4 +1,7 @@
-//! Minimal local TOML fixture representation (Milestone B.2 scaffold).
+//! VP-CS scenario TOML fixture representation.
+//!
+//! Accepts the local harness scaffold format (Milestone B.2) and spec-published
+//! fixtures from `veritypay-spec/spec/conformance/scenarios/`.
 
 use serde::Deserialize;
 use vp_conformance_core::{
@@ -8,9 +11,11 @@ use vp_reference_model::{Assertion, Claim, Evidence, EvidenceContent};
 
 use crate::error::ScenarioLoadError;
 
-/// Local scenario fixture schema for harness development.
+/// Scenario fixture schema for harness and spec-published VP-CS inputs.
 ///
-/// This is a **scaffold format** — not the final VP-CS registry-backed fixture layout.
+/// Spec fixtures use RFC field names (`claim_id`, `evidence_id`, `protocol_version`);
+/// local scaffold fixtures use harness field names (`id`, `edition_id`). Both map to
+/// the same [`ScenarioContext`].
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
 pub(crate) struct ScenarioFixture {
     pub scenario_id: String,
@@ -24,6 +29,7 @@ pub(crate) struct ScenarioFixture {
 
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
 pub(crate) struct ClaimFixture {
+    #[serde(alias = "claim_id")]
     pub id: String,
     pub subject: String,
     pub assertion_type: String,
@@ -32,6 +38,7 @@ pub(crate) struct ClaimFixture {
 
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
 pub(crate) struct EvidenceFixture {
+    #[serde(alias = "evidence_id")]
     pub id: String,
     pub claim_id: String,
     pub content_type: String,

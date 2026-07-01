@@ -16,6 +16,11 @@ fn fixture_path(name: &str) -> PathBuf {
         .join(name)
 }
 
+fn sibling_spec_vp_cs_0001_path() -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("../../veritypay-spec/spec/conformance/scenarios/VP-CS-0001.toml")
+}
+
 fn bin_path() -> PathBuf {
     PathBuf::from(env!("CARGO_BIN_EXE_vp-conformance"))
 }
@@ -141,4 +146,25 @@ fn parse_adapter_outcome_accepts_normative_labels() {
         parse_adapter_outcome("indeterminate").expect("indeterminate"),
         Outcome::Indeterminate
     );
+}
+
+#[test]
+fn optional_sibling_spec_vp_cs_0001_smoke_passes_when_present() {
+    let scenario = sibling_spec_vp_cs_0001_path();
+    if !scenario.is_file() {
+        eprintln!("skipping: sibling {} not found", scenario.display());
+        return;
+    }
+
+    let output = run_scenario(&RunOptions::new(
+        scenario,
+        "stub",
+        Outcome::Satisfied,
+        OutputFormat::Human,
+    ))
+    .expect("spec VP-CS-0001 smoke run");
+
+    assert_eq!(output.report().passed(), 1);
+    assert!(output.rendered().contains("✓ VP-CS-0001"));
+    assert_eq!(exit_code_from_report(output.report()), EXIT_SUCCESS);
 }

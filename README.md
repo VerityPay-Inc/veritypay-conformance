@@ -216,11 +216,23 @@ Build and run:
 ```bash
 cargo build -p vp-conformance-cli
 cargo run -p vp-conformance-cli --bin vp-conformance -- run \
-  --scenario crates/vp-conformance-scenarios/tests/fixtures/minimal.toml \
+  --scenario ../veritypay-spec/spec/conformance/scenarios/VP-CS-0001.toml \
   --adapter stub \
   --adapter-outcome satisfied \
   --format human
 ```
+
+### Scenario fixtures
+
+The preferred source of VP-CS scenarios is the specification repository:
+
+```
+veritypay-spec/spec/conformance/scenarios/
+```
+
+Point `--scenario` at any TOML file in that directory (for example `VP-CS-0001.toml`). The harness loads spec-published field names through the same `ScenarioLoader` used for local fixtures.
+
+Local fixtures under `crates/vp-conformance-scenarios/tests/fixtures/` remain for isolated unit tests and harness development—they are not normative scenario ownership.
 
 Human output (matching stub outcome):
 
@@ -253,7 +265,7 @@ Before merge or local integration with sibling repositories, run the readiness g
 ./scripts/readiness-gate.sh
 ```
 
-The script runs `cargo fmt --check`, `cargo clippy`, `cargo test`, a CLI boot check, and a smoke conformance run against the minimal VP-CS fixture when present. It mirrors the readiness process used in [`veritypay-reference`](https://github.com/VerityPay-Inc/veritypay-reference) and [`veritypay-tooling`](https://github.com/VerityPay-Inc/veritypay-tooling). Any failing step exits non-zero.
+The script runs `cargo fmt --check`, `cargo clippy`, `cargo test`, a CLI boot check, and a smoke conformance run against `../veritypay-spec/spec/conformance/scenarios/VP-CS-0001.toml` when the sibling specification checkout is present. It mirrors the readiness process used in [`veritypay-reference`](https://github.com/VerityPay-Inc/veritypay-reference) and [`veritypay-tooling`](https://github.com/VerityPay-Inc/veritypay-tooling). Any failing step exits non-zero.
 
 ## Repository readiness criteria
 
@@ -267,9 +279,9 @@ Downstream repositories may depend on `veritypay-conformance` when all of the fo
 | Human and JSON report renderers produce stable output | ✓ |
 | Public contract declared in [ADR-0004](docs/adrs/0004-conformance-public-contract.md) | ✓ |
 | Reference oracle baseline documented via [veritypay-reference ADR-0007](https://github.com/VerityPay-Inc/veritypay-reference/blob/main/docs/adrs/0007-reference-interpreter-public-contract.md) | ✓ |
-| Minimal VP-CS fixture smoke (`VP-CS-0001`) passes with matching stub adapter | ✓ |
+| Spec-published VP-CS smoke (`VP-CS-0001`) passes with matching stub adapter | ✓ |
 
-**Deferred:** multi-scenario suite discovery, external implementation adapters, org-wide reusable CI workflows, and full spec-backed VP-CS catalog loading (Milestone B parent).
+**Deferred:** multi-scenario suite discovery, external implementation adapters, org-wide reusable CI workflows, and VP-CS registry-backed catalog discovery.
 
 Development checks (from repository root):
 
@@ -292,16 +304,16 @@ Capabilities are delivered **capability-based** per [ROADMAP.md](ROADMAP.md)—n
 | Capability | Description | Milestone |
 |------------|-------------|-----------|
 | Repository scaffold | Purpose, architecture, contribution rules | A ✓ |
-| Scenario loading | VP-CS fixture input via `ScenarioLoader` | B ✓ |
+| Scenario loading | VP-CS fixture input via `ScenarioLoader` (local + spec-published paths) | B ✓ / G.2 ✓ |
 | Adapter contract | Shared result shape; plug in implementations | C ✓ |
 | Reference oracle | Invoke `veritypay-reference` | D ✓ |
 | Runner | Orchestrate oracle and adapter paths | D ✓ |
 | Comparison | Diff adapter vs oracle results | E ✓ |
 | Reports | Human and machine-readable summaries | F ✓ |
 | CLI (`vp-conformance run`) | Single-scenario conformance from the shell | G ✓ |
-| Readiness gate | Local fmt, clippy, test, smoke checklist | G ✓ |
+| Readiness gate | Local fmt, clippy, test, spec scenario smoke | G ✓ |
 
-**Deferred:** spec-backed VP-CS catalog loading (Milestone B parent), multi-scenario suite runs, external adapters, org-wide CI workflows.
+**Deferred:** VP-CS registry-backed catalog discovery, multi-scenario suite runs, external adapters, org-wide CI workflows.
 
 Long-term structure: [ARCHITECTURE.md](ARCHITECTURE.md). Workspace crates: [ADR-0002](docs/adrs/0002-cargo-workspace-architecture.md).
 

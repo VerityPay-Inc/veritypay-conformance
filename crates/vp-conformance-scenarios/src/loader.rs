@@ -1,4 +1,4 @@
-//! Loads local VP-CS scenario fixtures into immutable [`ScenarioContext`] records.
+//! Loads VP-CS scenario fixtures into immutable [`ScenarioContext`] records.
 
 use std::fs;
 use std::path::Path;
@@ -9,7 +9,7 @@ use crate::error::ScenarioLoadError;
 use crate::fixture::parse_fixture;
 use crate::options::ScenarioLoadOptions;
 
-/// Ingests a minimal local scenario fixture file into a path-free [`ScenarioContext`].
+/// Ingests a VP-CS scenario fixture file into a path-free [`ScenarioContext`].
 #[derive(Debug, Clone, PartialEq, Eq, Default)]
 pub struct ScenarioLoader;
 

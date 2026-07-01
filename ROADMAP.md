@@ -13,7 +13,7 @@ This roadmap is **not date-driven**. Milestones complete when their success crit
 | Milestone | Name | Status |
 |-----------|------|--------|
 | **A** | Repository scaffold | **Complete** |
-| **B** | Load scenario fixtures | **In progress** |
+| **B** | Load scenario fixtures | **Complete** |
 | **C** | Adapter contract | **Complete** |
 | **D** | Run reference oracle | **Complete** |
 | **E** | Compare implementation output | **Complete** |
@@ -154,27 +154,28 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 - Full fixture catalog
 - Adapter execution, oracle invocation, comparison, reports, or CLI commands
 
-### Spec-backed VP-CS loading (not started)
+### Spec-backed VP-CS loading (complete — G.2)
 
 **Outputs:**
 
-- **ScenarioLoader** and **ScenarioContext** per [ADR-0003](docs/adrs/0003-conformance-architecture.md) (`vp-conformance-scenarios`, `vp-conformance-core`)
-- Minimal VP-CS fixture format aligned with accepted spec documents
-- Load errors surfaced before adapter or oracle invocation
+- **ScenarioLoader** accepts spec-published fixtures from `veritypay-spec/spec/conformance/scenarios/`
+- RFC field aliases (`claim_id`, `evidence_id`, `protocol_version`) through existing parser
+- Integration tests in [`spec_scenario_loader.rs`](crates/vp-conformance-scenarios/tests/spec_scenario_loader.rs)
 
 **Success criteria:**
 
 - [x] At least one documented local scenario fixture loads successfully (B.2)
 - [x] Malformed fixture input fails with actionable load errors (B.2)
 - [x] Loaded scenario binds specification version or Edition pin (B.2)
-- [ ] Fixture loading from validated `veritypay-spec` checkout
-- [ ] No normative scenario fields invented beyond accepted spec documents
+- [x] Fixture loading from `veritypay-spec/spec/conformance/scenarios/VP-CS-0001.toml`
+- [x] No normative scenario fields invented beyond accepted spec documents
 
 **Not included:**
 
-- Adapter contract (Milestone C)
-- Reference oracle execution (Milestone D)
-- Outcome comparison (Milestone E)
+- VP-CS registry lookup or automatic catalog discovery
+- Adapter contract changes (Milestone C)
+- Reference oracle execution changes (Milestone D)
+- Outcome comparison changes (Milestone E)
 
 ---
 
@@ -475,7 +476,30 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 - External implementation adapters
 - File output
 
-### G.2 — Readiness gate (complete)
+### G.2 — Spec-published scenario loading (complete)
+
+**Goal:** Load normative VP-CS scenarios from `veritypay-spec` through the existing `ScenarioLoader`.
+
+**Outputs:**
+
+- Spec fixture field aliases in [`fixture.rs`](crates/vp-conformance-scenarios/src/fixture.rs)
+- Readiness gate smoke against `../veritypay-spec/spec/conformance/scenarios/VP-CS-0001.toml`
+- Optional sibling integration tests (skip when checkout absent)
+
+**Success criteria:**
+
+- [x] `vp-conformance run --scenario ../veritypay-spec/spec/conformance/scenarios/VP-CS-0001.toml` loads and executes
+- [x] Local fixture tests unchanged for isolated unit coverage
+- [x] No duplicate parsing logic; single loader path for local and spec fixtures
+- [x] Conformance executes specification-published VP-CS scenarios
+
+**Not included:**
+
+- VP-CS registry-backed catalog discovery
+- Multi-scenario suite runs
+- Comparison, oracle, or adapter changes
+
+### G.3 — Readiness gate (complete)
 
 **Goal:** Provide a single script verifying repository health before merge or sibling-repo use.
 
@@ -487,8 +511,8 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 **Success criteria:**
 
 - [x] Script runs fmt, clippy, and workspace tests in order
-- [x] Script smoke-runs `vp-conformance run` against minimal fixture when available
-- [x] Script skips smoke run with clear message when fixture is absent
+- [x] Script smoke-runs `vp-conformance run` against spec-published **VP-CS-0001** when sibling `veritypay-spec` is present
+- [x] Script skips smoke run with clear message when spec fixture is absent
 - [x] Script exits non-zero on any failing step
 
 **Not included:**
@@ -497,7 +521,7 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 - Additional validation logic
 - New CLI commands
 
-### G.3 — Repository readiness (complete)
+### G.4 — Repository readiness (complete)
 
 **Goal:** Declare `veritypay-conformance` ready for downstream repositories.
 
@@ -522,12 +546,12 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 **Success criteria:**
 
 - [x] CI invokes harness through [ADR-0004](docs/adrs/0004-conformance-public-contract.md) public contract (`vp-conformance run`)
-- [x] Local and documented readiness gate runs conformance smoke when fixture is present
+- [x] Local and documented readiness gate runs conformance smoke against spec-published **VP-CS-0001** when present
 - [x] Failure surfaces via exit codes suitable for CI (`0` / `1` / `2` / `3`)
-- [x] Clear skip behavior when minimal fixture is absent (readiness gate message)
-- [x] VP-CS-0001 minimal scenario included in repository fixtures
+- [x] Clear skip behavior when spec fixture is absent (readiness gate message)
+- [x] Local harness fixtures retained for unit tests only
 
-**Milestone status:** **Complete** (G.1 + G.2 + G.3).
+**Milestone status:** **Complete** (G.1 + G.2 + G.3 + G.4).
 
 **Not included:**
 
@@ -550,9 +574,9 @@ Downstream repositories may depend on `veritypay-conformance` when all criteria 
 | Reports suitable for local and CI review | `HumanReportRenderer`, `JsonReportRenderer` (F.2, F.3) |
 | Public contract declared | [ADR-0004](docs/adrs/0004-conformance-public-contract.md) |
 | Reference oracle baseline documented | [veritypay-reference ADR-0007](https://github.com/VerityPay-Inc/veritypay-reference/blob/main/docs/adrs/0007-reference-interpreter-public-contract.md) |
-| Minimal VP-CS smoke scenario present | `crates/vp-conformance-scenarios/tests/fixtures/minimal.toml` (`VP-CS-0001`) |
+| Spec-published VP-CS smoke | `../veritypay-spec/spec/conformance/scenarios/VP-CS-0001.toml` (G.2) |
 
-**Explicitly deferred:** spec-backed VP-CS catalog loading (Milestone B parent), multi-scenario suite discovery, external implementation adapters, org-wide reusable GitHub Actions workflows.
+**Explicitly deferred:** VP-CS registry-backed catalog discovery, multi-scenario suite discovery, external implementation adapters, org-wide reusable GitHub Actions workflows.
 
 ---
 

@@ -19,16 +19,16 @@ cargo test --workspace
 echo "==> cargo run -p vp-conformance-cli --bin vp-conformance"
 cargo run -p vp-conformance-cli --bin vp-conformance -- help
 
-FIXTURE="${ROOT}/crates/vp-conformance-scenarios/tests/fixtures/minimal.toml"
-if [[ -f "$FIXTURE" ]]; then
-    echo "==> vp-conformance run --scenario ${FIXTURE} --adapter stub --adapter-outcome satisfied"
+SPEC_FIXTURE="${ROOT}/../veritypay-spec/spec/conformance/scenarios/VP-CS-0001.toml"
+if [[ -f "$SPEC_FIXTURE" ]]; then
+    echo "==> vp-conformance run --scenario ${SPEC_FIXTURE} --adapter stub --adapter-outcome satisfied"
     cargo run -p vp-conformance-cli --bin vp-conformance -- run \
-        --scenario "$FIXTURE" \
+        --scenario "$SPEC_FIXTURE" \
         --adapter stub \
         --adapter-outcome satisfied
 else
-    echo "==> skipping smoke run: ${FIXTURE} not found"
-    echo "    minimal VP-CS fixture is required for end-to-end conformance smoke"
+    echo "==> skipping smoke run: ${SPEC_FIXTURE} not found"
+    echo "    clone veritypay-spec alongside this repository to run end-to-end spec scenario smoke"
 fi
 
 echo "readiness gate passed"
