@@ -196,6 +196,9 @@ dependencies = [
  "vp-conformance-adapter",
  "vp-conformance-core",
  "vp-conformance-scenarios",
+ "vp-reference-core",
+ "vp-reference-interpreter",
+ "vp-reference-model",
 ]
 
 [[package]]
@@ -205,6 +208,21 @@ dependencies = [
  "serde",
  "toml",
  "vp-conformance-core",
+ "vp-reference-model",
+]
+
+[[package]]
+name = "vp-reference-core"
+version = "0.0.0"
+dependencies = [
+ "vp-reference-model",
+]
+
+[[package]]
+name = "vp-reference-interpreter"
+version = "0.0.0"
+dependencies = [
+ "vp-reference-core",
  "vp-reference-model",
 ]
 

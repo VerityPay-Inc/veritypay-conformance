@@ -4,7 +4,7 @@
 
 This roadmap is **not date-driven**. Milestones complete when their success criteria are met—not when a quarter ends. Progress aligns with [Phase II Platform Plan](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/docs/05-governance/PHASE_II_PLATFORM_PLAN.md) and the conformance role defined in [CONFORMANCE_MODEL.md](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/docs/03-development/CONFORMANCE_MODEL.md).
 
-**Current milestone:** **D — Run reference oracle** *(Milestone C complete)*
+**Current milestone:** **D — Run reference oracle** *(D.1 complete; loaded-fixture oracle smoke remains)*
 
 ---
 
@@ -15,7 +15,7 @@ This roadmap is **not date-driven**. Milestones complete when their success crit
 | **A** | Repository scaffold | **Complete** |
 | **B** | Load scenario fixtures | **In progress** |
 | **C** | Adapter contract | **Complete** |
-| **D** | Run reference oracle | Not started |
+| **D** | Run reference oracle | **In progress** |
 | **E** | Compare implementation output | Not started |
 | **F** | Produce conformance report | Not started |
 | **G** | CI integration | Not started |
@@ -228,18 +228,34 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 
 **Prerequisite:** Milestone C — adapter contract and shared result shape; [veritypay-reference — ADR-0007](https://github.com/VerityPay-Inc/veritypay-reference/blob/main/docs/adrs/0007-reference-interpreter-public-contract.md) public contract.
 
+### D.1 — Reference oracle (complete)
+
+**Goal:** Introduce `ReferenceOracle` invoking the stable reference interpreter public contract.
+
 **Outputs:**
 
-- **ReferenceOracle** wiring `EvaluationContext` → `Interpreter::evaluate` → `VerificationResult` mapped to comparable result per [ADR-0003](docs/adrs/0003-conformance-architecture.md)
-- Fixture-driven test that oracle produces expected outcome for a minimal scenario
+- `ReferenceOracle` and `OracleError` in `vp-conformance-runner`
+- `ScenarioContext` → `EvaluationContext` → `Interpreter::evaluate` → `ComparableResult` mapping
+- Tests in [`crates/vp-conformance-runner/tests/reference_oracle.rs`](crates/vp-conformance-runner/tests/reference_oracle.rs)
+- Dependencies on `vp-reference-core` and `vp-reference-interpreter` only (not `vp-reference-cli`)
 
 **Success criteria:**
 
-- [ ] Oracle invokes reference interpreter without fork-specific glue
-- [ ] Oracle output uses the same comparable result shape as Milestone C adapters
-- [ ] `VerificationResult` matches scenario expectation for at least one fixture
-- [ ] Specification binding on oracle result matches loaded scenario pin
-- [ ] No verification rules reimplemented in the conformance repo
+- [x] Oracle invokes reference interpreter without fork-specific glue
+- [x] Oracle output uses the same comparable result shape as Milestone C adapters
+- [x] `ExecutionPath::ReferenceOracle` set on oracle results
+- [x] Outcomes `satisfied`, `not_satisfied`, and `indeterminate` map correctly
+- [x] Claim id and specification binding preserved in `ComparableResult`
+- [x] No verification rules reimplemented in the conformance repo
+- [x] Oracle evaluation does not require filesystem paths
+
+**Not included:**
+
+- Comparison logic (Milestone E)
+- Runner orchestration of adapter + oracle
+- Fixture-driven suite execution
+
+**Milestone status:** **Open** — D.1 complete; loaded-fixture oracle smoke remains.
 
 **Not included:**
 

@@ -48,6 +48,8 @@ vp-conformance-adapter = { path = "crates/vp-conformance-adapter" }
 vp-conformance-runner = { path = "crates/vp-conformance-runner" }
 vp-conformance-report = { path = "crates/vp-conformance-report" }
 vp-reference-model = { path = "../veritypay-reference/crates/vp-reference-model" }
+vp-reference-core = { path = "../veritypay-reference/crates/vp-reference-core" }
+vp-reference-interpreter = { path = "../veritypay-reference/crates/vp-reference-interpreter" }
 serde = { version = "1", features = ["derive"] }
 toml = "0.8"
 
