@@ -1,0 +1,54 @@
+[workspace]
+resolver = "2"
+members = [
+    ".",
+    "crates/vp-conformance-cli",
+    "crates/vp-conformance-core",
+    "crates/vp-conformance-scenarios",
+    "crates/vp-conformance-adapter",
+    "crates/vp-conformance-runner",
+    "crates/vp-conformance-report",
+]
+
+[package]
+name = "veritypay-conformance"
+description = "VerityPay conformance suite workspace"
+publish = false
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dev-dependencies]
+vp-conformance-adapter = { workspace = true }
+vp-conformance-core = { workspace = true }
+vp-conformance-report = { workspace = true }
+vp-conformance-runner = { workspace = true }
+vp-conformance-scenarios = { workspace = true }
+
+[lints]
+workspace = true
+
+[workspace.package]
+version = "0.0.0"
+edition = "2021"
+license = "MIT"
+authors = ["VerityPay Core Team"]
+repository = "https://github.com/VerityPay-Inc/veritypay-conformance"
+rust-version = "1.85"
+
+[workspace.dependencies]
+vp-conformance-cli = { path = "crates/vp-conformance-cli" }
+vp-conformance-core = { path = "crates/vp-conformance-core" }
+vp-conformance-scenarios = { path = "crates/vp-conformance-scenarios" }
+vp-conformance-adapter = { path = "crates/vp-conformance-adapter" }
+vp-conformance-runner = { path = "crates/vp-conformance-runner" }
+vp-conformance-report = { path = "crates/vp-conformance-report" }
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }

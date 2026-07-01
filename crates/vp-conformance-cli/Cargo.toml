@@ -1,0 +1,22 @@
+[package]
+name = "vp-conformance-cli"
+description = "CLI for the VerityPay conformance suite"
+publish = false
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "vp-conformance"
+path = "src/main.rs"
+
+[dependencies]
+vp-conformance-core = { workspace = true }
+vp-conformance-report = { workspace = true }
+vp-conformance-runner = { workspace = true }
+
+[lints]
+workspace = true

@@ -4,7 +4,7 @@
 
 This roadmap is **not date-driven**. Milestones complete when their success criteria are met—not when a quarter ends. Progress aligns with [Phase II Platform Plan](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/docs/05-governance/PHASE_II_PLATFORM_PLAN.md) and the conformance role defined in [CONFORMANCE_MODEL.md](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/docs/03-development/CONFORMANCE_MODEL.md).
 
-**Current milestone:** **A — Repository scaffold** *(complete)*
+**Current milestone:** **B — Load scenario fixtures** *(workspace bootstrapped; VP-CS loading not started)*
 
 ---
 
@@ -13,7 +13,7 @@ This roadmap is **not date-driven**. Milestones complete when their success crit
 | Milestone | Name | Status |
 |-----------|------|--------|
 | **A** | Repository scaffold | **Complete** |
-| **B** | Load scenario fixtures | Not started |
+| **B** | Load scenario fixtures | **In progress** |
 | **C** | Adapter contract | Not started |
 | **D** | Run reference oracle | Not started |
 | **E** | Compare implementation output | Not started |
@@ -55,7 +55,7 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 - Scenario loading or parsing
 - Reference oracle invocation
 - Implementation adapters
-- CI workflows
+- Cargo workspace (deferred to Milestone B bootstrap)
 
 ---
 
@@ -64,6 +64,36 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 **Goal:** Load **VP-CS scenario fixtures** from a validated specification checkout into a normalized internal representation.
 
 **Prerequisite:** [ADR-0001](docs/adrs/0001-implementation-language.md) — Rust (Accepted); [ADR-0002](docs/adrs/0002-cargo-workspace-architecture.md) — workspace layout (Accepted); [ADR-0003](docs/adrs/0003-conformance-architecture.md) — pipeline (Accepted); `veritypay-tooling` readiness; validated `veritypay-spec` sibling or pin.
+
+### Workspace bootstrap (complete)
+
+**Goal:** Scaffold the Cargo workspace per ADR-0002 before VP-CS loading begins.
+
+**Outputs:**
+
+- Cargo workspace with `vp-conformance-*` crates per [ADR-0002](docs/adrs/0002-cargo-workspace-architecture.md)
+- `rust-toolchain.toml`, `rustfmt.toml`, `.gitignore`, `.editorconfig`
+- [`.github/workflows/ci.yml`](.github/workflows/ci.yml) — `cargo fmt --check`, `cargo clippy`, `cargo test`
+- Placeholder modules aligned with [ADR-0003](docs/adrs/0003-conformance-architecture.md) pipeline stages
+- Workspace integration tests in [`tests/workspace.rs`](tests/workspace.rs)
+- Repository maturity declared: **Workspace bootstrapped**
+
+**Success criteria:**
+
+- [x] Cargo workspace compiles on stable Rust
+- [x] Crate boundaries and dependency graph match ADR-0002 (no cycles)
+- [x] `vp-conformance` binary prints bootstrap message
+- [x] CI runs fmt, clippy, and test on pull requests
+- [x] No VP-CS loading, oracle invocation, adapter execution, or comparison logic yet
+
+**Not included:**
+
+- VP-CS fixture parsing
+- `vp-spec-model` dependency wiring
+- `veritypay-reference` oracle dependency
+- Runner orchestration logic
+
+### VP-CS scenario loading (not started)
 
 **Outputs:**
 

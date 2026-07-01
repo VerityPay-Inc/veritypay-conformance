@@ -4,7 +4,7 @@
 
 This repository is part of the **Verity Specification Platform**. It runs **VP-CS (VerityPay Conformance Scenarios)** against independent implementations and compares their outcomes to the **reference interpreter**. It does **not** define protocol meaning.
 
-**Repository maturity:** **Scaffold** — purpose, architecture, roadmap, and contribution boundaries documented; implementation language ([ADR-0001](docs/adrs/0001-implementation-language.md)) and workspace layout ([ADR-0002](docs/adrs/0002-cargo-workspace-architecture.md)) chosen; no runner code yet.
+**Repository maturity:** **Workspace bootstrapped** — Cargo workspace per [ADR-0002](docs/adrs/0002-cargo-workspace-architecture.md); pipeline per [ADR-0003](docs/adrs/0003-conformance-architecture.md); placeholder crates compile and CI runs. VP-CS loading, oracle invocation, adapter execution, and comparison not yet implemented.
 
 ---
 
@@ -19,6 +19,7 @@ This repository is part of the **Verity Specification Platform**. It runs **VP-C
 | [docs/adrs/README.md](docs/adrs/README.md) | Architecture Decision Records |
 | [docs/adrs/0001-implementation-language.md](docs/adrs/0001-implementation-language.md) | ADR-0001 — Implementation language (Rust) |
 | [docs/adrs/0002-cargo-workspace-architecture.md](docs/adrs/0002-cargo-workspace-architecture.md) | ADR-0002 — Cargo workspace (`vp-conformance-*`) |
+| [docs/adrs/0003-conformance-architecture.md](docs/adrs/0003-conformance-architecture.md) | ADR-0003 — Conformance pipeline |
 | [LICENSE](LICENSE) | License terms for this repository |
 
 ---
@@ -167,6 +168,58 @@ Independent implementations may conform without shipping the reference interpret
 | Certifying legal or regulatory compliance | Governance outside this repo |
 
 If a change alters **what the protocol means**, it belongs in an RFC—not in this repository.
+
+---
+
+## Repository layout
+
+```
+veritypay-conformance/
+├── Cargo.toml                 ← Workspace manifest
+├── Cargo.lock
+├── rust-toolchain.toml        ← Pinned stable Rust
+├── rustfmt.toml
+├── README.md                  ← You are here
+├── ARCHITECTURE.md
+├── ROADMAP.md
+├── CONTRIBUTING.md
+├── LICENSE
+├── .github/workflows/ci.yml   ← fmt, clippy, test
+├── docs/
+│   └── adrs/
+├── crates/
+│   ├── vp-conformance-cli/      ← `vp-conformance` binary
+│   ├── vp-conformance-core/     ← ScenarioContext, contracts
+│   ├── vp-conformance-scenarios/← VP-CS fixture loading (Milestone B)
+│   ├── vp-conformance-adapter/  ← implementation adapter boundary (Milestone C)
+│   ├── vp-conformance-runner/   ← orchestration (Milestones D–E)
+│   └── vp-conformance-report/   ← conformance reports (Milestone F)
+├── src/lib.rs                 ← workspace root (integration tests)
+└── tests/                     ← workspace integration tests
+```
+
+Build and run:
+
+```bash
+cargo build -p vp-conformance-cli
+cargo run -p vp-conformance-cli --bin vp-conformance
+```
+
+Example output:
+
+```
+vp-conformance (bootstrapping)
+```
+
+Development checks (from repository root):
+
+```bash
+cargo fmt --all -- --check
+cargo clippy --workspace --all-targets -- -D warnings
+cargo test --workspace
+```
+
+CI runs the same `fmt`, `clippy`, and `test` commands on pull requests and pushes to `main`.
 
 ---
 

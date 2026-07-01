@@ -1,0 +1,18 @@
+[package]
+name = "vp-conformance-runner"
+description = "Conformance run orchestration for the VerityPay conformance suite"
+publish = false
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+vp-conformance-adapter = { workspace = true }
+vp-conformance-core = { workspace = true }
+vp-conformance-scenarios = { workspace = true }
+
+[lints]
+workspace = true
