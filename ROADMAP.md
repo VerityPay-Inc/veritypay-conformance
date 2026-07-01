@@ -371,6 +371,31 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 - File output
 - CI integration
 
+### F.2 — Human report renderer (complete)
+
+**Goal:** Render `ConformanceReport` as a deterministic plain-text summary for local development.
+
+**Outputs:**
+
+- `HumanReportRenderer::render` in `vp-conformance-report`
+- Summary block with counts and success rate
+- Per-scenario results in report order with mismatch notes for failures
+- Tests in [`crates/vp-conformance-report/tests/human_report_renderer.rs`](crates/vp-conformance-report/tests/human_report_renderer.rs)
+
+**Success criteria:**
+
+- [x] Renderer produces stable plain-text output without ANSI colors
+- [x] Results preserve report order without sorting
+- [x] Failures surface comparison mismatch notes in human-readable form
+- [x] `ConformanceReport` remains presentation-independent
+
+**Not included:**
+
+- JSON serialization
+- CLI integration
+- HTML or markdown export
+- File output
+
 **Success criteria:**
 
 - [ ] Full suite run produces a single report artifact
