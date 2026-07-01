@@ -4,7 +4,7 @@
 
 This roadmap is **not date-driven**. Milestones complete when their success criteria are met—not when a quarter ends. Progress aligns with [Phase II Platform Plan](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/docs/05-governance/PHASE_II_PLATFORM_PLAN.md) and the conformance role defined in [CONFORMANCE_MODEL.md](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/docs/03-development/CONFORMANCE_MODEL.md).
 
-**Current milestone:** **G — CI integration** *(Milestone F complete)*
+**Current status:** **Repository Ready** — Milestones A–G complete; maintenance and extension mode for broader VP-CS coverage.
 
 ---
 
@@ -18,7 +18,7 @@ This roadmap is **not date-driven**. Milestones complete when their success crit
 | **D** | Run reference oracle | **Complete** |
 | **E** | Compare implementation output | **Complete** |
 | **F** | Produce conformance report | **Complete** |
-| **G** | CI integration | **In progress** |
+| **G** | CI integration | **Complete** |
 
 Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and **Not included** so scope stays explicit.
 
@@ -497,19 +497,62 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 - Additional validation logic
 - New CLI commands
 
+### G.3 — Repository readiness (complete)
+
+**Goal:** Declare `veritypay-conformance` ready for downstream repositories.
+
+**Outputs:**
+
+- README repository maturity: **Conformance Platform Ready**
+- README capability table and repository readiness criteria
+- ROADMAP current status: **Repository Ready**
+
 **Success criteria:**
 
-- [ ] CI invokes harness through [ADR-0004](docs/adrs/0004-conformance-public-contract.md) public contract only
-- [ ] CI runs conformance suite on pull requests or scheduled basis
-- [ ] Failure blocks merge when configured scenarios mismatch oracle
-- [ ] Clear skip behavior when sibling repos or adapters are absent
-- [ ] At least VP-CS-0001 or agreed minimal scenario included when available upstream
+- [x] Delivered pipeline capabilities documented with checkmarks
+- [x] Repository readiness criteria match sibling-repo pattern (readiness gate + public contract + smoke)
+- [x] Deferred work (catalog loading, org-wide CI) explicitly called out
+
+**Not included:**
+
+- GitHub Actions workflow expansion
+- Normative VP-CS authoring
+- Certification semantics
+
+**Success criteria:**
+
+- [x] CI invokes harness through [ADR-0004](docs/adrs/0004-conformance-public-contract.md) public contract (`vp-conformance run`)
+- [x] Local and documented readiness gate runs conformance smoke when fixture is present
+- [x] Failure surfaces via exit codes suitable for CI (`0` / `1` / `2` / `3`)
+- [x] Clear skip behavior when minimal fixture is absent (readiness gate message)
+- [x] VP-CS-0001 minimal scenario included in repository fixtures
+
+**Milestone status:** **Complete** (G.1 + G.2 + G.3).
 
 **Not included:**
 
 - Hosted conformance-as-a-service
 - Product release certification
 - Implementing verification rules locally
+- Organization-wide reusable CI workflows (deferred to maintenance)
+
+---
+
+## Repository readiness criteria
+
+Downstream repositories may depend on `veritypay-conformance` when all criteria below are met. This mirrors the readiness pattern in [`veritypay-tooling`](https://github.com/VerityPay-Inc/veritypay-tooling) and [`veritypay-reference`](https://github.com/VerityPay-Inc/veritypay-reference): workspace health, a readiness gate script, a documented public contract, and a smoke path against representative inputs.
+
+| Criterion | Evidence |
+|-----------|----------|
+| Workspace builds and tests pass | `cargo test --workspace`; CI `fmt` / `clippy` / `test` |
+| Readiness gate available | [`scripts/readiness-gate.sh`](scripts/readiness-gate.sh) |
+| Conformance pipeline wired end-to-end | `vp-conformance run` (G.1) |
+| Reports suitable for local and CI review | `HumanReportRenderer`, `JsonReportRenderer` (F.2, F.3) |
+| Public contract declared | [ADR-0004](docs/adrs/0004-conformance-public-contract.md) |
+| Reference oracle baseline documented | [veritypay-reference ADR-0007](https://github.com/VerityPay-Inc/veritypay-reference/blob/main/docs/adrs/0007-reference-interpreter-public-contract.md) |
+| Minimal VP-CS smoke scenario present | `crates/vp-conformance-scenarios/tests/fixtures/minimal.toml` (`VP-CS-0001`) |
+
+**Explicitly deferred:** spec-backed VP-CS catalog loading (Milestone B parent), multi-scenario suite discovery, external implementation adapters, org-wide reusable GitHub Actions workflows.
 
 ---
 

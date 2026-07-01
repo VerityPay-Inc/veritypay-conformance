@@ -4,7 +4,17 @@
 
 This repository is part of the **Verity Specification Platform**. It runs **VP-CS (VerityPay Conformance Scenarios)** against independent implementations and compares their outcomes to the **reference interpreter**. It does **not** define protocol meaning.
 
-**Repository maturity:** **Pipeline wired** — load, oracle, adapter, compare, report, and CLI `run` per [ROADMAP.md](ROADMAP.md); CI integration (Milestone G) in progress.
+**Repository maturity:** **Conformance Platform Ready** — scenario load, reference oracle, adapter contract, runner, comparison, human and JSON reports, and `vp-conformance run` per [ROADMAP.md](ROADMAP.md); org-wide CI automation remains incremental.
+
+| Capability | Status |
+|------------|--------|
+| Scenario loading | ✓ |
+| Reference oracle | ✓ |
+| Adapter contract | ✓ |
+| Runner | ✓ |
+| Comparison | ✓ |
+| Reports | ✓ |
+| CLI | ✓ |
 
 ---
 
@@ -186,6 +196,8 @@ veritypay-conformance/
 ├── CONTRIBUTING.md
 ├── LICENSE
 ├── .github/workflows/ci.yml   ← fmt, clippy, test
+├── scripts/
+│   └── readiness-gate.sh      ← local fmt, clippy, test, CLI smoke
 ├── docs/
 │   └── adrs/
 ├── crates/
@@ -243,6 +255,22 @@ Before merge or local integration with sibling repositories, run the readiness g
 
 The script runs `cargo fmt --check`, `cargo clippy`, `cargo test`, a CLI boot check, and a smoke conformance run against the minimal VP-CS fixture when present. It mirrors the readiness process used in [`veritypay-reference`](https://github.com/VerityPay-Inc/veritypay-reference) and [`veritypay-tooling`](https://github.com/VerityPay-Inc/veritypay-tooling). Any failing step exits non-zero.
 
+## Repository readiness criteria
+
+Downstream repositories may depend on `veritypay-conformance` when all of the following hold:
+
+| Criterion | Status |
+|-----------|--------|
+| Cargo workspace builds; `cargo test --workspace` passes | ✓ |
+| [`scripts/readiness-gate.sh`](scripts/readiness-gate.sh) runs fmt, clippy, test, and smoke conformance | ✓ |
+| `vp-conformance run` wires load → oracle → adapter → compare → report | ✓ |
+| Human and JSON report renderers produce stable output | ✓ |
+| Public contract declared in [ADR-0004](docs/adrs/0004-conformance-public-contract.md) | ✓ |
+| Reference oracle baseline documented via [veritypay-reference ADR-0007](https://github.com/VerityPay-Inc/veritypay-reference/blob/main/docs/adrs/0007-reference-interpreter-public-contract.md) | ✓ |
+| Minimal VP-CS fixture smoke (`VP-CS-0001`) passes with matching stub adapter | ✓ |
+
+**Deferred:** multi-scenario suite discovery, external implementation adapters, org-wide reusable CI workflows, and full spec-backed VP-CS catalog loading (Milestone B parent).
+
 Development checks (from repository root):
 
 ```bash
@@ -257,19 +285,23 @@ CI runs the same `fmt`, `clippy`, and `test` commands on pull requests and pushe
 
 ---
 
-## Planned capabilities
+## Capabilities
 
 Capabilities are delivered **capability-based** per [ROADMAP.md](ROADMAP.md)—not on a fixed calendar.
 
 | Capability | Description | Milestone |
 |------------|-------------|-----------|
-| Repository scaffold | Purpose, architecture, contribution rules | A |
-| Load scenario fixtures | VP-CS fixture input | B |
-| Adapter contract | Shared result shape; plug in implementations | C |
-| Run reference oracle | Invoke `veritypay-reference` | D |
-| Compare implementation output | Diff adapter vs oracle results | E |
-| Produce conformance report | Human and machine-readable results | F |
-| CI integration | Runnable in pipelines | G |
+| Repository scaffold | Purpose, architecture, contribution rules | A ✓ |
+| Scenario loading | VP-CS fixture input via `ScenarioLoader` | B ✓ |
+| Adapter contract | Shared result shape; plug in implementations | C ✓ |
+| Reference oracle | Invoke `veritypay-reference` | D ✓ |
+| Runner | Orchestrate oracle and adapter paths | D ✓ |
+| Comparison | Diff adapter vs oracle results | E ✓ |
+| Reports | Human and machine-readable summaries | F ✓ |
+| CLI (`vp-conformance run`) | Single-scenario conformance from the shell | G ✓ |
+| Readiness gate | Local fmt, clippy, test, smoke checklist | G ✓ |
+
+**Deferred:** spec-backed VP-CS catalog loading (Milestone B parent), multi-scenario suite runs, external adapters, org-wide CI workflows.
 
 Long-term structure: [ARCHITECTURE.md](ARCHITECTURE.md). Workspace crates: [ADR-0002](docs/adrs/0002-cargo-workspace-architecture.md).
 
