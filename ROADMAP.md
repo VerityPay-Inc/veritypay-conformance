@@ -345,6 +345,32 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 - Structured export suitable for CI consumption
 - Exit codes mapped to pass/fail summary
 
+### F.1 — Conformance report aggregation (complete)
+
+**Goal:** Introduce `ConformanceReport` summarizing one or more `ConformanceResult` records.
+
+**Outputs:**
+
+- `ConformanceReport` and `ConformanceReportBuilder` in `vp-conformance-report`
+- Derived counts: total, passed, failed, skipped, errors
+- Summary helpers: `has_failures()`, `has_errors()`, `success_rate()`
+- Tests in [`crates/vp-conformance-report/tests/conformance_report.rs`](crates/vp-conformance-report/tests/conformance_report.rs)
+
+**Success criteria:**
+
+- [x] Report aggregates multiple `ConformanceResult` values immutably
+- [x] Verdict counts derived automatically from results
+- [x] `success_rate()` returns `passed / total` (0.0 when empty)
+- [x] Report does not alter verification outcomes
+
+**Not included:**
+
+- CLI rendering
+- JSON serialization
+- HTML reports
+- File output
+- CI integration
+
 **Success criteria:**
 
 - [ ] Full suite run produces a single report artifact
