@@ -4,7 +4,7 @@
 
 This roadmap is **not date-driven**. Milestones complete when their success criteria are met—not when a quarter ends. Progress aligns with [Phase II Platform Plan](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/docs/05-governance/PHASE_II_PLATFORM_PLAN.md) and the conformance role defined in [CONFORMANCE_MODEL.md](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/docs/03-development/CONFORMANCE_MODEL.md).
 
-**Current milestone:** **E — Compare implementation output** *(Milestone D complete)*
+**Current milestone:** **F — Produce conformance report** *(Milestone E complete)*
 
 ---
 
@@ -16,7 +16,7 @@ This roadmap is **not date-driven**. Milestones complete when their success crit
 | **B** | Load scenario fixtures | **In progress** |
 | **C** | Adapter contract | **Complete** |
 | **D** | Run reference oracle | **Complete** |
-| **E** | Compare implementation output | Not started |
+| **E** | Compare implementation output | **Complete** |
 | **F** | Produce conformance report | Not started |
 | **G** | CI integration | Not started |
 
@@ -300,18 +300,35 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 - **ComparisonEngine** and **ConformanceResult** per [ADR-0003](docs/adrs/0003-conformance-architecture.md) (pass/fail, expected vs actual outcome, trace differences, metadata)
 - Outcome mismatch detection (`satisfied` / `not_satisfied` / `indeterminate`)
 
+### E.1 — Comparison engine (complete)
+
+**Goal:** Introduce `ComparisonEngine` comparing oracle and implementation `ComparableResult` values into `ConformanceResult`.
+
+**Outputs:**
+
+- `ComparisonEngine::compare` in `vp-conformance-runner`
+- Outcome, evaluated claim id, and specification binding comparison
+- Mismatch notes in `ConformanceResult::comparison_notes`
+- Tests in [`crates/vp-conformance-runner/tests/comparison_engine.rs`](crates/vp-conformance-runner/tests/comparison_engine.rs)
+
 **Success criteria:**
 
-- [ ] Matching outcomes produce pass
-- [ ] Divergent outcomes produce fail with clear mismatch reason
-- [ ] Comparison does not introduce non-normative outcome labels
-- [ ] Claim id and specification binding compared where scenario requires
+- [x] Matching outcomes produce pass
+- [x] Divergent outcomes produce fail with clear mismatch reason
+- [x] Comparison does not introduce non-normative outcome labels
+- [x] Claim id and specification binding compared where scenario requires
+- [x] Comparison does not mutate either `ComparableResult`
+- [x] Trace diff deferred with placeholder note only
 
 **Not included:**
 
+- Runner orchestration changes
 - Full trace diff (may expand in Milestone F)
 - Conformance report formatting (Milestone F)
+- Skip/error verdict assignment from comparison
 - Legal certification semantics
+
+**Milestone status:** **Complete** (E.1).
 
 ---
 
