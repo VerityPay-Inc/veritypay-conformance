@@ -4,7 +4,7 @@
 
 This repository is part of the **Verity Specification Platform**. It runs **VP-CS (VerityPay Conformance Scenarios)** against independent implementations and compares their outcomes to the **reference interpreter**. It does **not** define protocol meaning.
 
-**Repository maturity:** **Scaffold** — purpose, architecture, roadmap, and contribution boundaries documented; implementation language chosen ([ADR-0001](docs/adrs/0001-implementation-language.md)); no runner code yet.
+**Repository maturity:** **Scaffold** — purpose, architecture, roadmap, and contribution boundaries documented; implementation language ([ADR-0001](docs/adrs/0001-implementation-language.md)) and workspace layout ([ADR-0002](docs/adrs/0002-cargo-workspace-architecture.md)) chosen; no runner code yet.
 
 ---
 
@@ -18,6 +18,7 @@ This repository is part of the **Verity Specification Platform**. It runs **VP-C
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute to the conformance suite |
 | [docs/adrs/README.md](docs/adrs/README.md) | Architecture Decision Records |
 | [docs/adrs/0001-implementation-language.md](docs/adrs/0001-implementation-language.md) | ADR-0001 — Implementation language (Rust) |
+| [docs/adrs/0002-cargo-workspace-architecture.md](docs/adrs/0002-cargo-workspace-architecture.md) | ADR-0002 — Cargo workspace (`vp-conformance-*`) |
 | [LICENSE](LICENSE) | License terms for this repository |
 
 ---
@@ -183,7 +184,7 @@ Capabilities are delivered **capability-based** per [ROADMAP.md](ROADMAP.md)—n
 | Produce conformance report | Human and machine-readable results | F |
 | CI integration | Runnable in pipelines | G |
 
-Long-term structure: [ARCHITECTURE.md](ARCHITECTURE.md).
+Long-term structure: [ARCHITECTURE.md](ARCHITECTURE.md). Workspace crates: [ADR-0002](docs/adrs/0002-cargo-workspace-architecture.md).
 
 ---
 
