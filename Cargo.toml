@@ -48,6 +48,8 @@ vp-conformance-adapter = { path = "crates/vp-conformance-adapter" }
 vp-conformance-runner = { path = "crates/vp-conformance-runner" }
 vp-conformance-report = { path = "crates/vp-conformance-report" }
 vp-reference-model = { path = "../veritypay-reference/crates/vp-reference-model" }
+serde = { version = "1", features = ["derive"] }
+toml = "0.8"
 
 [workspace.lints.rust]
 unsafe_code = "forbid"

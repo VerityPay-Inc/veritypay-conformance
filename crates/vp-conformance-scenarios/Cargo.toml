@@ -10,7 +10,10 @@ repository.workspace = true
 rust-version.workspace = true
 
 [dependencies]
+serde = { workspace = true }
+toml = { workspace = true }
 vp-conformance-core = { workspace = true }
+vp-reference-model = { workspace = true }
 
 [lints]
 workspace = true

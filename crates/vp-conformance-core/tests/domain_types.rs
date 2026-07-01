@@ -1,9 +1,9 @@
 //! Domain type tests for Milestone B.1.
 
 use vp_conformance_core::{
-    BuildError, ComparableResult, ComparableResultBuilder, ConformanceResult,
-    ConformanceVerdict, ExecutionPath, ScenarioBinding, ScenarioBindingBuilder,
-    ScenarioContext, ScenarioContextBuilder, ScenarioId,
+    BuildError, ComparableResult, ComparableResultBuilder, ConformanceResult, ConformanceVerdict,
+    ExecutionPath, ScenarioBinding, ScenarioBindingBuilder, ScenarioContext,
+    ScenarioContextBuilder, ScenarioId,
 };
 use vp_reference_model::{Assertion, Claim, Evidence, EvidenceContent, Outcome};
 

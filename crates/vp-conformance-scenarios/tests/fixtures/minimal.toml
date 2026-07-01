@@ -1,0 +1,18 @@
+scenario_id = "VP-CS-0001"
+edition_id = "edition-2026"
+
+[claim]
+id = "claim-001"
+subject = "payroll-run-42"
+assertion_type = "minimal"
+assertion_body = "expected-body"
+
+[evidence]
+id = "evidence-001"
+claim_id = "claim-001"
+content_type = "document"
+content_body = "expected-body"
+
+[metadata]
+source = "local-fixture"
+harness = "milestone-b2"

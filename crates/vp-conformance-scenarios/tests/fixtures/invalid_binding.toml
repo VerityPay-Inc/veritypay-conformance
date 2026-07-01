@@ -1,0 +1,13 @@
+scenario_id = "VP-CS-0001"
+
+[claim]
+id = "claim-001"
+subject = "payroll-run-42"
+assertion_type = "minimal"
+assertion_body = "expected-body"
+
+[evidence]
+id = "evidence-001"
+claim_id = "claim-001"
+content_type = "document"
+content_body = "expected-body"

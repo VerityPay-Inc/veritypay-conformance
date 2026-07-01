@@ -4,7 +4,7 @@
 
 This roadmap is **not date-driven**. Milestones complete when their success criteria are met—not when a quarter ends. Progress aligns with [Phase II Platform Plan](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/docs/05-governance/PHASE_II_PLATFORM_PLAN.md) and the conformance role defined in [CONFORMANCE_MODEL.md](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/docs/03-development/CONFORMANCE_MODEL.md).
 
-**Current milestone:** **B — Load scenario fixtures** *(B.1 domain types complete; VP-CS loading not started)*
+**Current milestone:** **B — Load scenario fixtures** *(B.1–B.2 complete; spec-backed VP-CS loading remains open)*
 
 ---
 
@@ -130,7 +130,31 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 - VP-CS fixture parsing or `ScenarioLoader` implementation
 - Adapter execution, oracle invocation, or comparison logic
 
-### VP-CS scenario loading (not started)
+### B.2 — Scenario loader scaffold (complete)
+
+**Goal:** Load one minimal local scenario fixture into [`ScenarioContext`](crates/vp-conformance-core/src/scenario_context.rs).
+
+**Outputs:**
+
+- `ScenarioLoader`, `ScenarioLoadOptions`, `ScenarioLoadError` in `vp-conformance-scenarios`
+- Minimal local TOML fixture format and example [`minimal.toml`](crates/vp-conformance-scenarios/tests/fixtures/minimal.toml)
+- Loader tests in [`crates/vp-conformance-scenarios/tests/scenario_loader.rs`](crates/vp-conformance-scenarios/tests/scenario_loader.rs)
+
+**Success criteria:**
+
+- [x] Valid minimal fixture loads into path-free `ScenarioContext`
+- [x] Missing required fields and invalid bindings fail with actionable errors
+- [x] Evidence `claim_id` linkage validated against claim
+- [x] Optional metadata loads when present
+- [x] Claim and evidence constructed through `vp-reference-model` builders
+
+**Not included:**
+
+- VP-CS registry lookup or `veritypay-spec` checkout integration
+- Full fixture catalog
+- Adapter execution, oracle invocation, comparison, reports, or CLI commands
+
+### Spec-backed VP-CS loading (not started)
 
 **Outputs:**
 
@@ -140,9 +164,10 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 
 **Success criteria:**
 
-- [ ] At least one documented VP-CS fixture loads successfully
-- [ ] Malformed fixture input fails with actionable load errors
-- [ ] Loaded scenario binds specification version or Edition pin
+- [x] At least one documented local scenario fixture loads successfully (B.2)
+- [x] Malformed fixture input fails with actionable load errors (B.2)
+- [x] Loaded scenario binds specification version or Edition pin (B.2)
+- [ ] Fixture loading from validated `veritypay-spec` checkout
 - [ ] No normative scenario fields invented beyond accepted spec documents
 
 **Not included:**
