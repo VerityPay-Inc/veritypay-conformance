@@ -22,7 +22,20 @@ This roadmap is **not date-driven**. Milestones complete when their success crit
 
 Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and **Not included** so scope stays explicit.
 
-**Milestone ordering note:** The **adapter contract** (C) precedes the **reference oracle** (D) so both execution paths share a comparable result shape before comparison (E). Comparison then receives **two results**—implementation and oracle—not a chained execution pipeline. Pipeline stages are defined in [ADR-0003](docs/adrs/0003-conformance-architecture.md).
+**Canonical milestone order** ([ADR-0003](docs/adrs/0003-conformance-architecture.md)):
+
+| Milestone | Name | Pipeline stage |
+|-----------|------|----------------|
+| **B** | Load scenario fixtures | ScenarioLoader, ScenarioContext |
+| **C** | Adapter contract | ImplementationAdapter, comparable result shape |
+| **D** | Run reference oracle | ReferenceOracle |
+| **E** | Compare implementation output | ComparisonEngine, ConformanceResult |
+| **F** | Produce conformance report | Report |
+| **G** | CI integration | CI invocation |
+
+**B → C → D → E → F → G** is fixed. Do not reorder milestones without a successor ADR.
+
+**Ordering note:** Milestone **C** (adapter contract) precedes **D** (reference oracle) so both execution paths share a comparable result shape before **E** (comparison). Comparison receives **two sibling results**—implementation and oracle—not a chained pipeline where oracle follows adapter output.
 
 ---
 
@@ -85,7 +98,7 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 - [x] Crate boundaries and dependency graph match ADR-0002 (no cycles)
 - [x] `vp-conformance` binary prints bootstrap message
 - [x] CI runs fmt, clippy, and test on pull requests
-- [x] No VP-CS loading, oracle invocation, adapter execution, or comparison logic yet
+- [x] No VP-CS loading, adapter execution, oracle invocation, or comparison logic yet
 
 **Not included:**
 
@@ -100,7 +113,7 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 
 - **ScenarioLoader** and **ScenarioContext** per [ADR-0003](docs/adrs/0003-conformance-architecture.md) (`vp-conformance-scenarios`, `vp-conformance-core`)
 - Minimal VP-CS fixture format aligned with accepted spec documents
-- Load errors surfaced before oracle or adapter invocation
+- Load errors surfaced before adapter or oracle invocation
 
 **Success criteria:**
 
@@ -175,9 +188,9 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 
 ## Milestone E — Compare implementation output
 
-**Goal:** **Compare** two execution results—implementation (via adapter) and reference oracle.
+**Goal:** **Compare** two execution results—implementation (via adapter, Milestone C) and reference oracle (Milestone D).
 
-**Prerequisite:** Milestones C and D — both paths produce comparable results.
+**Prerequisite:** Milestone C — adapter contract and shared result shape; Milestone D — reference oracle wired to the same comparable result shape.
 
 **Outputs:**
 
@@ -202,6 +215,8 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 ## Milestone F — Produce conformance report
 
 **Goal:** Emit **human and machine-readable conformance reports**.
+
+**Prerequisite:** Milestone E — `ConformanceResult` records from comparison.
 
 **Outputs:**
 
@@ -229,7 +244,7 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 
 **Goal:** Run the conformance suite in **continuous integration** pipelines.
 
-**Prerequisite:** Milestones B–F — scenario load through report; [ADR-0004](docs/adrs/0004-conformance-public-contract.md) — public contract (`ScenarioContext` → `ConformanceRunner::run` → `ConformanceResult`); [veritypay-reference — ADR-0007](https://github.com/VerityPay-Inc/veritypay-reference/blob/main/docs/adrs/0007-reference-interpreter-public-contract.md) oracle contract.
+**Prerequisite:** Milestone B — scenario loading; Milestone C — adapter contract; Milestone D — reference oracle; Milestone E — comparison; Milestone F — conformance report; [ADR-0004](docs/adrs/0004-conformance-public-contract.md) — public contract (`ScenarioContext` → `ConformanceRunner::run` → `ConformanceResult`); [veritypay-reference — ADR-0007](https://github.com/VerityPay-Inc/veritypay-reference/blob/main/docs/adrs/0007-reference-interpreter-public-contract.md) oracle contract.
 
 **Outputs:**
 
