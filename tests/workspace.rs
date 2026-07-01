@@ -2,13 +2,13 @@
 
 use vp_conformance_adapter::StubAdapter;
 use vp_conformance_core::{
-    ComparableResult, ConformanceError, ConformanceResult, ConformanceVerdict, ExecutionPath,
-    ImplementationAdapter, ScenarioBinding, ScenarioContext, ScenarioId,
+    ConformanceError, ConformanceResult, ConformanceVerdict, ImplementationAdapter,
+    ScenarioBinding, ScenarioContext, ScenarioId,
 };
 use vp_conformance_report::Report;
 use vp_conformance_runner::{ComparisonEngine, ConformanceRunner, ReferenceOracle};
 use vp_conformance_scenarios::ScenarioLoader;
-use vp_reference_model::{Assertion, Claim, Evidence, EvidenceContent, Outcome};
+use vp_reference_model::{Assertion, Claim, Evidence, EvidenceContent};
 
 fn sample_context() -> ScenarioContext {
     let claim = Claim::builder()
@@ -42,15 +42,11 @@ fn workspace_crates_are_linkable() {
     let context = sample_context();
     let binding = context.specification_binding().clone();
     let adapter = StubAdapter::placeholder();
-
-    let implementation = adapter.run(&context).expect("adapter result");
-    let oracle = ComparableResult::builder()
-        .execution_path(ExecutionPath::reference_oracle())
-        .evaluated_claim_id("claim-001")
-        .outcome(Outcome::Satisfied)
-        .specification_binding(binding.clone())
-        .build()
-        .expect("oracle");
+    let adapter_id = adapter.id().as_str().to_owned();
+    let runner = ConformanceRunner::new(ReferenceOracle::new(), Box::new(adapter));
+    let runner_result = runner.run(&context).expect("runner result");
+    let implementation = runner_result.implementation_result().clone();
+    let oracle = runner_result.oracle_result().clone();
     let result = ConformanceResult::builder()
         .scenario_id(context.scenario_id().clone())
         .specification_binding(binding)
@@ -63,8 +59,9 @@ fn workspace_crates_are_linkable() {
     let _ = (
         context,
         result,
+        runner_result,
         ConformanceError::placeholder(),
-        adapter.id().as_str(),
+        adapter_id,
         ScenarioLoader::placeholder(),
         ReferenceOracle::placeholder(),
         ComparisonEngine::placeholder(),

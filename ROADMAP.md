@@ -4,7 +4,7 @@
 
 This roadmap is **not date-driven**. Milestones complete when their success criteria are met—not when a quarter ends. Progress aligns with [Phase II Platform Plan](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/docs/05-governance/PHASE_II_PLATFORM_PLAN.md) and the conformance role defined in [CONFORMANCE_MODEL.md](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/docs/03-development/CONFORMANCE_MODEL.md).
 
-**Current milestone:** **D — Run reference oracle** *(D.1 complete; loaded-fixture oracle smoke remains)*
+**Current milestone:** **E — Compare implementation output** *(Milestone D complete)*
 
 ---
 
@@ -15,7 +15,7 @@ This roadmap is **not date-driven**. Milestones complete when their success crit
 | **A** | Repository scaffold | **Complete** |
 | **B** | Load scenario fixtures | **In progress** |
 | **C** | Adapter contract | **Complete** |
-| **D** | Run reference oracle | **In progress** |
+| **D** | Run reference oracle | **Complete** |
 | **E** | Compare implementation output | Not started |
 | **F** | Produce conformance report | Not started |
 | **G** | CI integration | Not started |
@@ -252,10 +252,34 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 **Not included:**
 
 - Comparison logic (Milestone E)
-- Runner orchestration of adapter + oracle
+- Runner orchestration of adapter + oracle (complete in D.2)
 - Fixture-driven suite execution
 
-**Milestone status:** **Open** — D.1 complete; loaded-fixture oracle smoke remains.
+### D.2 — Runner orchestration (complete)
+
+**Goal:** Introduce `ConformanceRunner` coordinating oracle and adapter execution.
+
+**Outputs:**
+
+- `ConformanceRunner::run(&ScenarioContext) -> Result<RunnerResult, RunnerError>`
+- `RunnerResult` with `oracle_result` and `implementation_result` only
+- `RunnerError` distinguishing oracle vs adapter failures
+- Tests in [`crates/vp-conformance-runner/tests/runner_orchestration.rs`](crates/vp-conformance-runner/tests/runner_orchestration.rs)
+
+**Success criteria:**
+
+- [x] Runner invokes reference oracle then implementation adapter
+- [x] Runner returns both `ComparableResult` values without comparison
+- [x] Oracle and adapter failures propagate distinctly
+- [x] Runner remains filesystem-independent
+
+**Not included:**
+
+- Comparison logic (Milestone E)
+- `ConformanceResult` / verdict assignment
+- CLI or report wiring
+
+**Milestone status:** **Complete** (D.1 + D.2).
 
 **Not included:**
 
