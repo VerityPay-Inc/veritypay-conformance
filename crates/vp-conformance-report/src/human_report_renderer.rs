@@ -6,10 +6,7 @@ use crate::conformance_report::ConformanceReport;
 
 const MISMATCH_NOTE_ORDER: [(&str, &str); 3] = [
     ("outcome.mismatch", "Outcome mismatch"),
-    (
-        "evaluated_claim_id.mismatch",
-        "Claim id mismatch",
-    ),
+    ("evaluated_claim_id.mismatch", "Claim id mismatch"),
     (
         "specification_binding.mismatch",
         "Specification binding mismatch",
@@ -39,10 +36,7 @@ impl HumanReportRenderer {
         output.push_str(&format!("Failed: {}\n", report.failed()));
         output.push_str(&format!("Skipped: {}\n", report.skipped()));
         output.push_str(&format!("Errors: {}\n", report.errors()));
-        output.push_str(&format!(
-            "Success Rate: {}\n",
-            format_success_rate(report)
-        ));
+        output.push_str(&format!("Success Rate: {}\n", format_success_rate(report)));
         output.push('\n');
         output.push_str("Results\n");
         output.push('\n');

@@ -5,7 +5,7 @@ use std::process;
 
 use clap::{Parser, Subcommand, ValueEnum};
 use vp_conformance_cli::{
-    RunError, RunOptions, exit_code_from_report, parse_adapter_outcome, run_scenario,
+    exit_code_from_report, parse_adapter_outcome, run_scenario, RunError, RunOptions,
 };
 use vp_conformance_cli::{EXIT_HARNESS_ERROR, EXIT_USER_ERROR};
 use vp_reference_model::Outcome;

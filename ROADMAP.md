@@ -475,6 +475,28 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 - External implementation adapters
 - File output
 
+### G.2 — Readiness gate (complete)
+
+**Goal:** Provide a single script verifying repository health before merge or sibling-repo use.
+
+**Outputs:**
+
+- [`scripts/readiness-gate.sh`](scripts/readiness-gate.sh) — fmt, clippy, test, CLI boot, smoke run
+- README readiness gate documentation
+
+**Success criteria:**
+
+- [x] Script runs fmt, clippy, and workspace tests in order
+- [x] Script smoke-runs `vp-conformance run` against minimal fixture when available
+- [x] Script skips smoke run with clear message when fixture is absent
+- [x] Script exits non-zero on any failing step
+
+**Not included:**
+
+- GitHub Actions workflow changes
+- Additional validation logic
+- New CLI commands
+
 **Success criteria:**
 
 - [ ] CI invokes harness through [ADR-0004](docs/adrs/0004-conformance-public-contract.md) public contract only

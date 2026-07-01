@@ -30,9 +30,7 @@ impl OutputFormat {
         match value {
             "human" => Ok(Self::Human),
             "json" => Ok(Self::Json),
-            other => Err(format!(
-                "invalid format `{other}`; expected human or json"
-            )),
+            other => Err(format!("invalid format `{other}`; expected human or json")),
         }
     }
 }

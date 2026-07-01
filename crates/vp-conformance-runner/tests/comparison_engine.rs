@@ -20,11 +20,7 @@ fn alternate_binding() -> ScenarioBinding {
         .expect("binding")
 }
 
-fn oracle_result(
-    binding: &ScenarioBinding,
-    claim_id: &str,
-    outcome: Outcome,
-) -> ComparableResult {
+fn oracle_result(binding: &ScenarioBinding, claim_id: &str, outcome: Outcome) -> ComparableResult {
     ComparableResult::builder()
         .execution_path(ExecutionPath::reference_oracle())
         .evaluated_claim_id(claim_id)
@@ -145,11 +141,7 @@ fn multiple_mismatches_produce_multiple_notes() {
     let implementation_binding = alternate_binding();
     let runner = runner_result(
         oracle_result(&oracle_binding, "claim-001", Outcome::Satisfied),
-        implementation_result(
-            &implementation_binding,
-            "claim-002",
-            Outcome::Indeterminate,
-        ),
+        implementation_result(&implementation_binding, "claim-002", Outcome::Indeterminate),
     );
 
     let result = ComparisonEngine::new()

@@ -103,21 +103,23 @@ fn single_pass_renders_lowercase_verdict_and_outcomes() {
         value["results"][0]["implementation"]["outcome"],
         "satisfied"
     );
-    assert_eq!(
-        value["results"][0]["implementation"]["adapter_id"],
-        "stub"
-    );
+    assert_eq!(value["results"][0]["implementation"]["adapter_id"], "stub");
     assert_eq!(value["results"][0]["notes"], Value::Array(vec![]));
 }
 
 #[test]
 fn single_fail_includes_notes_and_binding_summary() {
     let rendered = JsonReportRenderer::new()
-        .render(&ConformanceReport::from_results([conformance_result_with_notes(
-            "VP-CS-0003",
-            ConformanceVerdict::Fail,
-            &[("outcome.mismatch", "oracle=satisfied implementation=not_satisfied")],
-        )]))
+        .render(&ConformanceReport::from_results([
+            conformance_result_with_notes(
+                "VP-CS-0003",
+                ConformanceVerdict::Fail,
+                &[(
+                    "outcome.mismatch",
+                    "oracle=satisfied implementation=not_satisfied",
+                )],
+            ),
+        ]))
         .expect("render json");
     let value = parse_json(&rendered);
 
@@ -139,7 +141,10 @@ fn mixed_report_preserves_order_and_formats_success_rate() {
         .result(conformance_result_with_notes(
             "VP-CS-0003",
             ConformanceVerdict::Fail,
-            &[("outcome.mismatch", "oracle=satisfied implementation=not_satisfied")],
+            &[(
+                "outcome.mismatch",
+                "oracle=satisfied implementation=not_satisfied",
+            )],
         ))
         .build();
     let rendered = JsonReportRenderer::new()

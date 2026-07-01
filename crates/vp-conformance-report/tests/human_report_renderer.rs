@@ -107,7 +107,10 @@ fn single_fail_renders_mismatch_notes() {
         "VP-CS-0003",
         ConformanceVerdict::Fail,
         &[
-            ("outcome.mismatch", "oracle=satisfied implementation=not_satisfied"),
+            (
+                "outcome.mismatch",
+                "oracle=satisfied implementation=not_satisfied",
+            ),
             (
                 "specification_binding.mismatch",
                 "oracle=edition=edition-2026 implementation=edition=edition-2025",
@@ -128,7 +131,10 @@ fn mixed_report_preserves_order_and_formats_success_rate() {
         .result(conformance_result_with_notes(
             "VP-CS-0003",
             ConformanceVerdict::Fail,
-            &[("outcome.mismatch", "oracle=satisfied implementation=not_satisfied")],
+            &[(
+                "outcome.mismatch",
+                "oracle=satisfied implementation=not_satisfied",
+            )],
         ))
         .result(conformance_result("VP-CS-0004", ConformanceVerdict::Skip))
         .result(conformance_result("VP-CS-0005", ConformanceVerdict::Error))

@@ -233,6 +233,16 @@ cargo run -p vp-conformance-cli --bin vp-conformance -- run \
 
 Exit codes: `0` pass, `1` conformance failure, `2` user/CLI error, `3` harness error.
 
+### Readiness gate
+
+Before merge or local integration with sibling repositories, run the readiness gate from the repository root:
+
+```bash
+./scripts/readiness-gate.sh
+```
+
+The script runs `cargo fmt --check`, `cargo clippy`, `cargo test`, a CLI boot check, and a smoke conformance run against the minimal VP-CS fixture when present. It mirrors the readiness process used in [`veritypay-reference`](https://github.com/VerityPay-Inc/veritypay-reference) and [`veritypay-tooling`](https://github.com/VerityPay-Inc/veritypay-tooling). Any failing step exits non-zero.
+
 Development checks (from repository root):
 
 ```bash

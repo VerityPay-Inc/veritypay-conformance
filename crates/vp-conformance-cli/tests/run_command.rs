@@ -5,7 +5,7 @@ use std::process::Command;
 
 use serde_json::Value;
 use vp_conformance_cli::{
-    OutputFormat, RunOptions, exit_code_from_report, parse_adapter_outcome, run_scenario,
+    exit_code_from_report, parse_adapter_outcome, run_scenario, OutputFormat, RunOptions,
 };
 use vp_conformance_cli::{EXIT_CONFORMANCE_FAILURE, EXIT_SUCCESS, EXIT_USER_ERROR};
 use vp_reference_model::Outcome;
@@ -105,11 +105,7 @@ fn invalid_adapter_outcome_exits_two() {
 #[test]
 fn missing_scenario_file_exits_two() {
     let missing = fixture_path("does-not-exist.toml");
-    let (code, _stdout, stderr) = run_cli(&[
-        "run",
-        "--scenario",
-        missing.to_str().expect("path"),
-    ]);
+    let (code, _stdout, stderr) = run_cli(&["run", "--scenario", missing.to_str().expect("path")]);
 
     assert_eq!(code, EXIT_USER_ERROR);
     assert!(stderr.contains("failed to read fixture"));
