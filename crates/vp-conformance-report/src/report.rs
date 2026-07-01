@@ -16,6 +16,6 @@ impl Report {
     /// Report rendering is deferred until Milestone F.
     #[must_use]
     pub fn is_bootstrapped(&self, result: &ConformanceResult) -> bool {
-        !result.scenario_id().is_empty()
+        !result.scenario_id().as_str().is_empty()
     }
 }

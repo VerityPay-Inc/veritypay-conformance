@@ -27,6 +27,7 @@ vp-conformance-core = { workspace = true }
 vp-conformance-report = { workspace = true }
 vp-conformance-runner = { workspace = true }
 vp-conformance-scenarios = { workspace = true }
+vp-reference-model = { workspace = true }
 
 [lints]
 workspace = true
@@ -46,6 +47,7 @@ vp-conformance-scenarios = { path = "crates/vp-conformance-scenarios" }
 vp-conformance-adapter = { path = "crates/vp-conformance-adapter" }
 vp-conformance-runner = { path = "crates/vp-conformance-runner" }
 vp-conformance-report = { path = "crates/vp-conformance-report" }
+vp-reference-model = { path = "../veritypay-reference/crates/vp-reference-model" }
 
 [workspace.lints.rust]
 unsafe_code = "forbid"

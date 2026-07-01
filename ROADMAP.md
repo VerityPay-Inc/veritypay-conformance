@@ -4,7 +4,7 @@
 
 This roadmap is **not date-driven**. Milestones complete when their success criteria are met—not when a quarter ends. Progress aligns with [Phase II Platform Plan](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/docs/05-governance/PHASE_II_PLATFORM_PLAN.md) and the conformance role defined in [CONFORMANCE_MODEL.md](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/docs/03-development/CONFORMANCE_MODEL.md).
 
-**Current milestone:** **B — Load scenario fixtures** *(workspace bootstrapped; VP-CS loading not started)*
+**Current milestone:** **B — Load scenario fixtures** *(B.1 domain types complete; VP-CS loading not started)*
 
 ---
 
@@ -106,6 +106,29 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 - `vp-spec-model` dependency wiring
 - `veritypay-reference` oracle dependency
 - Runner orchestration logic
+
+### B.1 — Conformance domain types (complete)
+
+**Goal:** Replace bootstrap placeholders in `vp-conformance-core` with immutable domain types.
+
+**Outputs:**
+
+- `ScenarioId`, `ScenarioBinding`, `ScenarioMetadata`, `ScenarioContext`, builders
+- `ComparableResult`, `ComparableResultBuilder`, `ExecutionPath`
+- `ConformanceVerdict`, `ConformanceResult`, `ConformanceResultBuilder`
+- Domain tests in [`crates/vp-conformance-core/tests/domain_types.rs`](crates/vp-conformance-core/tests/domain_types.rs)
+
+**Success criteria:**
+
+- [x] Builders validate required fields and produce immutable objects
+- [x] `ComparableResult` models a single execution path (reference or implementation)
+- [x] `ConformanceResult` records verdict, oracle result, and implementation result
+- [x] Core objects construct without filesystem paths
+
+**Not included:**
+
+- VP-CS fixture parsing or `ScenarioLoader` implementation
+- Adapter execution, oracle invocation, or comparison logic
 
 ### VP-CS scenario loading (not started)
 

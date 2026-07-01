@@ -9,5 +9,8 @@ authors.workspace = true
 repository.workspace = true
 rust-version.workspace = true
 
+[dependencies]
+vp-reference-model = { workspace = true }
+
 [lints]
 workspace = true
