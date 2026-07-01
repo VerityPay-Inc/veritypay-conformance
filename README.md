@@ -4,7 +4,7 @@
 
 This repository is part of the **Verity Specification Platform**. It runs **VP-CS (VerityPay Conformance Scenarios)** against independent implementations and compares their outcomes to the **reference interpreter**. It does **not** define protocol meaning.
 
-**Repository maturity:** **Workspace bootstrapped** — Cargo workspace per [ADR-0002](docs/adrs/0002-cargo-workspace-architecture.md); pipeline per [ADR-0003](docs/adrs/0003-conformance-architecture.md); placeholder crates compile and CI runs. VP-CS loading, oracle invocation, adapter execution, and comparison not yet implemented.
+**Repository maturity:** **Workspace bootstrapped** — Cargo workspace per [ADR-0002](docs/adrs/0002-cargo-workspace-architecture.md); pipeline per [ADR-0003](docs/adrs/0003-conformance-architecture.md); public contract per [ADR-0004](docs/adrs/0004-conformance-public-contract.md); placeholder crates compile and CI runs. VP-CS loading, oracle invocation, adapter execution, and comparison not yet implemented.
 
 ---
 
@@ -20,6 +20,7 @@ This repository is part of the **Verity Specification Platform**. It runs **VP-C
 | [docs/adrs/0001-implementation-language.md](docs/adrs/0001-implementation-language.md) | ADR-0001 — Implementation language (Rust) |
 | [docs/adrs/0002-cargo-workspace-architecture.md](docs/adrs/0002-cargo-workspace-architecture.md) | ADR-0002 — Cargo workspace (`vp-conformance-*`) |
 | [docs/adrs/0003-conformance-architecture.md](docs/adrs/0003-conformance-architecture.md) | ADR-0003 — Conformance pipeline |
+| [docs/adrs/0004-conformance-public-contract.md](docs/adrs/0004-conformance-public-contract.md) | ADR-0004 — Public contract (`run` → `ConformanceResult`) |
 | [LICENSE](LICENSE) | License terms for this repository |
 
 ---
@@ -221,6 +222,8 @@ cargo test --workspace
 
 CI runs the same `fmt`, `clippy`, and `test` commands on pull requests and pushes to `main`.
 
+**Public contract** ([ADR-0004](docs/adrs/0004-conformance-public-contract.md)): external callers depend on `ScenarioContext` → `ConformanceRunner::run` → `ConformanceResult` only—not adapter, comparison, or report internals.
+
 ---
 
 ## Planned capabilities
@@ -251,6 +254,7 @@ Long-term structure: [ARCHITECTURE.md](ARCHITECTURE.md). Workspace crates: [ADR-
 | Reference interpreter | [veritypay-reference](https://github.com/VerityPay-Inc/veritypay-reference) |
 | Specification tooling | [veritypay-tooling](https://github.com/VerityPay-Inc/veritypay-tooling) |
 | Public interpreter contract | [ADR-0007](https://github.com/VerityPay-Inc/veritypay-reference/blob/main/docs/adrs/0007-reference-interpreter-public-contract.md) |
+| Public conformance contract | [ADR-0004](docs/adrs/0004-conformance-public-contract.md) |
 
 ---
 

@@ -39,6 +39,7 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 - [docs/adrs/0001-implementation-language.md](docs/adrs/0001-implementation-language.md) — ADR-0001: Rust (Accepted)
 - [docs/adrs/0002-cargo-workspace-architecture.md](docs/adrs/0002-cargo-workspace-architecture.md) — ADR-0002: Cargo workspace (Accepted)
 - [docs/adrs/0003-conformance-architecture.md](docs/adrs/0003-conformance-architecture.md) — ADR-0003: Conformance pipeline (Accepted)
+- [docs/adrs/0004-conformance-public-contract.md](docs/adrs/0004-conformance-public-contract.md) — ADR-0004: Public contract (Accepted)
 - [LICENSE](LICENSE) — license terms
 - Repository maturity declared: **Scaffold**
 
@@ -228,6 +229,8 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 
 **Goal:** Run the conformance suite in **continuous integration** pipelines.
 
+**Prerequisite:** Milestones B–F — scenario load through report; [ADR-0004](docs/adrs/0004-conformance-public-contract.md) — public contract (`ScenarioContext` → `ConformanceRunner::run` → `ConformanceResult`); [veritypay-reference — ADR-0007](https://github.com/VerityPay-Inc/veritypay-reference/blob/main/docs/adrs/0007-reference-interpreter-public-contract.md) oracle contract.
+
 **Outputs:**
 
 - CI workflow or documented integration pattern
@@ -236,6 +239,7 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 
 **Success criteria:**
 
+- [ ] CI invokes harness through [ADR-0004](docs/adrs/0004-conformance-public-contract.md) public contract only
 - [ ] CI runs conformance suite on pull requests or scheduled basis
 - [ ] Failure blocks merge when configured scenarios mismatch oracle
 - [ ] Clear skip behavior when sibling repos or adapters are absent
