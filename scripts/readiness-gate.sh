@@ -20,6 +20,7 @@ echo "==> cargo run -p vp-conformance-cli --bin vp-conformance"
 cargo run -p vp-conformance-cli --bin vp-conformance -- help
 
 SPEC_FIXTURE="${ROOT}/../veritypay-spec/spec/conformance/scenarios/VP-CS-0001.toml"
+SPEC_FIXTURE_0002="${ROOT}/../veritypay-spec/spec/conformance/scenarios/VP-CS-0002.toml"
 if [[ -f "$SPEC_FIXTURE" ]]; then
     echo "==> vp-conformance run --scenario ${SPEC_FIXTURE} --adapter stub --adapter-outcome satisfied"
     cargo run -p vp-conformance-cli --bin vp-conformance -- run \
@@ -29,6 +30,17 @@ if [[ -f "$SPEC_FIXTURE" ]]; then
 else
     echo "==> skipping smoke run: ${SPEC_FIXTURE} not found"
     echo "    clone veritypay-spec alongside this repository to run end-to-end spec scenario smoke"
+fi
+
+if [[ -f "$SPEC_FIXTURE_0002" ]]; then
+    echo "==> vp-conformance run --scenario ${SPEC_FIXTURE_0002} --adapter stub --adapter-outcome indeterminate"
+    cargo run -p vp-conformance-cli --bin vp-conformance -- run \
+        --scenario "$SPEC_FIXTURE_0002" \
+        --adapter stub \
+        --adapter-outcome indeterminate
+else
+    echo "==> skipping smoke run: ${SPEC_FIXTURE_0002} not found"
+    echo "    clone veritypay-spec alongside this repository to run VP-CS-0002 smoke"
 fi
 
 echo "readiness gate passed"

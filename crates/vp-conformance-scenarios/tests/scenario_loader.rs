@@ -92,20 +92,15 @@ fn load_str_reports_parse_errors_with_source_label() {
 }
 
 #[test]
-fn claim_evidence_mismatch_fails_clearly() {
-    let error = ScenarioLoader::new()
+fn mismatched_claim_evidence_loads_for_binding_scenarios() {
+    let context = ScenarioLoader::new()
         .load(&ScenarioLoadOptions::new(fixture_path(
             "claim_evidence_mismatch.toml",
         )))
-        .expect_err("claim mismatch");
+        .expect("claim mismatch fixture loads");
 
-    assert_eq!(
-        error,
-        ScenarioLoadError::ClaimEvidenceMismatch {
-            claim_id: "claim-001".to_owned(),
-            evidence_claim_id: "claim-999".to_owned(),
-        }
-    );
+    assert_eq!(context.claim().id.as_str(), "claim-001");
+    assert_eq!(context.evidence().claim_id.as_str(), "claim-999");
 }
 
 #[test]

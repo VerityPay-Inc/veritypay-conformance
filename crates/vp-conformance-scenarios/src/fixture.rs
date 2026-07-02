@@ -59,13 +59,6 @@ impl ScenarioFixture {
         let claim = build_claim(&self.claim)?;
         let evidence = build_evidence(&self.evidence)?;
 
-        if evidence.claim_id.as_str() != claim.id.as_str() {
-            return Err(ScenarioLoadError::ClaimEvidenceMismatch {
-                claim_id: claim.id.to_string(),
-                evidence_claim_id: evidence.claim_id.to_string(),
-            });
-        }
-
         let mut builder = ScenarioContext::builder()
             .scenario_id(ScenarioId::new(self.scenario_id))
             .specification_binding(binding)

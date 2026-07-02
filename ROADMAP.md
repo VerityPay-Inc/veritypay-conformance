@@ -553,6 +553,33 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 
 **Milestone status:** **Complete** (G.1 + G.2 + G.3 + G.4).
 
+### G.5 — Execute VP-CS-0002 (complete)
+
+**Goal:** Run the published **VP-CS-0002** fixture using the reference interpreter implementing **VP-RULE-0002**.
+
+**Prerequisite:** [VP-RFC-0002](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/rfcs/0002-claim-identity-binding.md) fixture in `veritypay-spec`; `veritypay-reference` **VP-RULE-0002** (Milestone D.4).
+
+**Outputs:**
+
+- Readiness gate smoke for `../veritypay-spec/spec/conformance/scenarios/VP-CS-0002.toml`
+- Integration tests: matching stub `indeterminate` → PASS; mismatched stub `satisfied` → FAIL
+- README Platform 1.0 scenario set documents **VP-CS-0001** and **VP-CS-0002**
+
+**Success criteria:**
+
+- [x] `vp-conformance run --scenario ../veritypay-spec/spec/conformance/scenarios/VP-CS-0002.toml --adapter stub --adapter-outcome indeterminate` returns PASS
+- [x] Oracle returns `indeterminate` for **VP-CS-0002** fixture inputs
+- [x] Stub adapter outcome mismatch surfaces as conformance failure
+- [x] No comparison engine or adapter API changes
+
+**Not included:**
+
+- Multi-scenario suite discovery
+- VP-RFC-0002 acceptance in spec
+- External implementation adapters
+
+**Milestone status:** **Complete**.
+
 **Not included:**
 
 - Hosted conformance-as-a-service
@@ -574,7 +601,7 @@ Downstream repositories may depend on `veritypay-conformance` when all criteria 
 | Reports suitable for local and CI review | `HumanReportRenderer`, `JsonReportRenderer` (F.2, F.3) |
 | Public contract declared | [ADR-0004](docs/adrs/0004-conformance-public-contract.md) |
 | Reference oracle baseline documented | [veritypay-reference ADR-0007](https://github.com/VerityPay-Inc/veritypay-reference/blob/main/docs/adrs/0007-reference-interpreter-public-contract.md) |
-| Spec-published VP-CS smoke | `../veritypay-spec/spec/conformance/scenarios/VP-CS-0001.toml` (G.2) |
+| Spec-published VP-CS smoke | `../veritypay-spec/spec/conformance/scenarios/VP-CS-0001.toml`, `VP-CS-0002.toml` (G.2, G.5) |
 
 **Explicitly deferred:** VP-CS registry-backed catalog discovery, multi-scenario suite discovery, external implementation adapters, org-wide reusable GitHub Actions workflows.
 

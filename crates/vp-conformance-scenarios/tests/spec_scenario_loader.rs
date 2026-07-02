@@ -37,3 +37,26 @@ fn optional_sibling_spec_vp_cs_0001_loads_when_present() {
     assert_eq!(context.metadata().get("source_rfc"), Some("VP-RFC-0001"));
     assert_eq!(context.metadata().get("status"), Some("draft"));
 }
+
+fn sibling_spec_vp_cs_0002_path() -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("../../../veritypay-spec/spec/conformance/scenarios/VP-CS-0002.toml")
+}
+
+#[test]
+fn optional_sibling_spec_vp_cs_0002_loads_when_present() {
+    let fixture = sibling_spec_vp_cs_0002_path();
+    if !fixture.is_file() {
+        eprintln!("skipping: sibling {} not found", fixture.display());
+        return;
+    }
+
+    let context = ScenarioLoader::new()
+        .load(&ScenarioLoadOptions::new(&fixture))
+        .expect("load spec VP-CS-0002");
+
+    assert_eq!(context.scenario_id().as_str(), "VP-CS-0002");
+    assert_eq!(context.claim().id.as_str(), "claim-001");
+    assert_eq!(context.evidence().claim_id.as_str(), "claim-999");
+    assert_eq!(context.metadata().get("source_rfc"), Some("VP-RFC-0002"));
+}

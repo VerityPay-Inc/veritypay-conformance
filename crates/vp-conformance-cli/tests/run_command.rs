@@ -18,7 +18,12 @@ fn fixture_path(name: &str) -> PathBuf {
 
 fn sibling_spec_vp_cs_0001_path() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("../../veritypay-spec/spec/conformance/scenarios/VP-CS-0001.toml")
+        .join("../../../veritypay-spec/spec/conformance/scenarios/VP-CS-0001.toml")
+}
+
+fn sibling_spec_vp_cs_0002_path() -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("../../../veritypay-spec/spec/conformance/scenarios/VP-CS-0002.toml")
 }
 
 fn bin_path() -> PathBuf {
@@ -167,4 +172,50 @@ fn optional_sibling_spec_vp_cs_0001_smoke_passes_when_present() {
     assert_eq!(output.report().passed(), 1);
     assert!(output.rendered().contains("✓ VP-CS-0001"));
     assert_eq!(exit_code_from_report(output.report()), EXIT_SUCCESS);
+}
+
+#[test]
+fn optional_sibling_spec_vp_cs_0002_matching_stub_passes_when_present() {
+    let scenario = sibling_spec_vp_cs_0002_path();
+    if !scenario.is_file() {
+        eprintln!("skipping: sibling {} not found", scenario.display());
+        return;
+    }
+
+    let output = run_scenario(&RunOptions::new(
+        scenario,
+        "stub",
+        Outcome::Indeterminate,
+        OutputFormat::Human,
+    ))
+    .expect("spec VP-CS-0002 smoke run");
+
+    assert_eq!(output.report().passed(), 1);
+    assert!(output.rendered().contains("✓ VP-CS-0002"));
+    assert_eq!(exit_code_from_report(output.report()), EXIT_SUCCESS);
+}
+
+#[test]
+fn optional_sibling_spec_vp_cs_0002_mismatched_stub_fails_when_present() {
+    let scenario = sibling_spec_vp_cs_0002_path();
+    if !scenario.is_file() {
+        eprintln!("skipping: sibling {} not found", scenario.display());
+        return;
+    }
+
+    let output = run_scenario(&RunOptions::new(
+        scenario,
+        "stub",
+        Outcome::Satisfied,
+        OutputFormat::Human,
+    ))
+    .expect("spec VP-CS-0002 mismatch smoke run");
+
+    assert_eq!(output.report().failed(), 1);
+    assert!(output.rendered().contains("✗ VP-CS-0002"));
+    assert!(output.rendered().contains("Outcome mismatch"));
+    assert_eq!(
+        exit_code_from_report(output.report()),
+        EXIT_CONFORMANCE_FAILURE
+    );
 }
