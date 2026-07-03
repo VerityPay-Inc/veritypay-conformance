@@ -611,6 +611,18 @@ Downstream repositories may depend on `veritypay-conformance` when all criteria 
 
 The conformance suite enters **maintenance and extension** mode: broader VP-CS coverage, richer trace comparison, and Edition-aware scenario sets as spec governance defines them.
 
+### Platform 1.3 — assertion evaluator dispatch (preparation)
+
+Draft protocol RFCs **VP-RFC-0005** (*Assertion Types*) and **VP-RFC-0006** (*Assertion Evaluation Dispatch*) introduce deterministic selection of evaluation semantics from `assertion_type`. **Platform 1.3** will align conformance comparison with that dispatch model.
+
+| Principle | Detail |
+|-----------|--------|
+| **Compare semantics** | Conformance compares **evaluator behavior** and verification outcomes — not evaluator implementation architecture (modules, class names, or internal dispatch tables) |
+| **Oracle baseline** | `veritypay-reference` implements dispatch per [ADR-0009](https://github.com/VerityPay-Inc/veritypay-reference/blob/main/docs/adrs/0009-assertion-evaluator-architecture.md) |
+| **Fixtures** | Existing **VP-CS-0001** / **VP-CS-0002** unchanged until spec publishes fixture alignment |
+
+No conformance code or fixture changes are required for this roadmap note.
+
 **Explicitly deferred** (see [ADR-0003 — Future extensions](docs/adrs/0003-conformance-architecture.md#future-extensions)):
 
 - Parallel runners and batch execution
