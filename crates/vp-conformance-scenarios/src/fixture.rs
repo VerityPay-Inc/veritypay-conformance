@@ -129,7 +129,7 @@ fn build_evidence(fixture: &EvidenceFixture) -> Result<Evidence, ScenarioLoadErr
     require_non_empty(&fixture.id, "evidence.id")?;
     require_non_empty(&fixture.claim_id, "evidence.claim_id")?;
     require_non_empty(&fixture.content_type, "evidence.content_type")?;
-    require_non_empty(&fixture.content_body, "evidence.content_body")?;
+    // content_body may be empty or whitespace-only — protocol rules determine outcome.
 
     Evidence::builder()
         .id(fixture.id.clone())

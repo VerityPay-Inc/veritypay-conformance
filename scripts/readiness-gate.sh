@@ -19,28 +19,27 @@ cargo test --workspace
 echo "==> cargo run -p vp-conformance-cli --bin vp-conformance"
 cargo run -p vp-conformance-cli --bin vp-conformance -- help
 
-SPEC_FIXTURE="${ROOT}/../veritypay-spec/spec/conformance/scenarios/VP-CS-0001.toml"
-SPEC_FIXTURE_0002="${ROOT}/../veritypay-spec/spec/conformance/scenarios/VP-CS-0002.toml"
-if [[ -f "$SPEC_FIXTURE" ]]; then
-    echo "==> vp-conformance run --scenario ${SPEC_FIXTURE} --adapter stub --adapter-outcome satisfied"
-    cargo run -p vp-conformance-cli --bin vp-conformance -- run \
-        --scenario "$SPEC_FIXTURE" \
-        --adapter stub \
-        --adapter-outcome satisfied
-else
-    echo "==> skipping smoke run: ${SPEC_FIXTURE} not found"
-    echo "    clone veritypay-spec alongside this repository to run end-to-end spec scenario smoke"
-fi
+run_spec_smoke() {
+    local fixture_id="$1"
+    local adapter_outcome="$2"
+    local fixture="${ROOT}/../veritypay-spec/spec/conformance/scenarios/${fixture_id}.toml"
 
-if [[ -f "$SPEC_FIXTURE_0002" ]]; then
-    echo "==> vp-conformance run --scenario ${SPEC_FIXTURE_0002} --adapter stub --adapter-outcome indeterminate"
-    cargo run -p vp-conformance-cli --bin vp-conformance -- run \
-        --scenario "$SPEC_FIXTURE_0002" \
-        --adapter stub \
-        --adapter-outcome indeterminate
-else
-    echo "==> skipping smoke run: ${SPEC_FIXTURE_0002} not found"
-    echo "    clone veritypay-spec alongside this repository to run VP-CS-0002 smoke"
-fi
+    if [[ -f "$fixture" ]]; then
+        echo "==> vp-conformance run --scenario ${fixture} --adapter stub --adapter-outcome ${adapter_outcome}"
+        cargo run -p vp-conformance-cli --bin vp-conformance -- run \
+            --scenario "$fixture" \
+            --adapter stub \
+            --adapter-outcome "$adapter_outcome"
+    else
+        echo "==> skipping smoke run: ${fixture} not found"
+        echo "    clone veritypay-spec alongside this repository to run ${fixture_id} smoke"
+    fi
+}
+
+run_spec_smoke "VP-CS-0001" "satisfied"
+run_spec_smoke "VP-CS-0002" "indeterminate"
+run_spec_smoke "VP-CS-0011" "satisfied"
+run_spec_smoke "VP-CS-0012" "not_satisfied"
+run_spec_smoke "VP-CS-0013" "indeterminate"
 
 echo "readiness gate passed"

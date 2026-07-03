@@ -4,7 +4,7 @@
 
 This repository is part of the **Verity Specification Platform**. It runs **VP-CS (VerityPay Conformance Scenarios)** against independent implementations and compares their outcomes to the **reference interpreter**. It does **not** define protocol meaning.
 
-**Repository maturity:** **Conformance Platform Ready** — scenario load, reference oracle, adapter contract, runner, comparison, human and JSON reports, and `vp-conformance run` per [ROADMAP.md](ROADMAP.md); org-wide CI automation remains incremental.
+**Repository maturity:** **Conformance Platform Ready** — scenario load, reference oracle, adapter contract, runner, comparison, human and JSON reports, and `vp-conformance run` per [ROADMAP.md](ROADMAP.md); **Platform 1.3** **`normalized_text`** semantic coverage via **VP-CS-0011**–**0013**; org-wide CI automation remains incremental.
 
 | Capability | Status |
 |------------|--------|
@@ -15,6 +15,7 @@ This repository is part of the **Verity Specification Platform**. It runs **VP-C
 | Comparison | ✓ |
 | Reports | ✓ |
 | CLI | ✓ |
+| Platform 1.3 **`normalized_text`** scenarios | ✓ (VP-CS-0011–0013) |
 
 ---
 
@@ -230,14 +231,21 @@ The preferred source of VP-CS scenarios is the specification repository:
 veritypay-spec/spec/conformance/scenarios/
 ```
 
-Point `--scenario` at any TOML file in that directory (for example `VP-CS-0001.toml` or `VP-CS-0002.toml`). The harness loads spec-published field names through the same `ScenarioLoader` used for local fixtures.
+Point `--scenario` at any TOML file in that directory (for example `VP-CS-0001.toml` through `VP-CS-0013.toml`). The harness loads spec-published field names through the same `ScenarioLoader` used for local fixtures.
 
-**Platform 1.0 scenario set** (spec-published):
+**Platform release:** **[Platform 1.2](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/PLATFORM_RELEASES.md)** remains the current platform release in `veritypay-spec`. **Platform 1.3** is **in progress** — draft **`normalized_text`** scenarios are executable when sibling `veritypay-reference` implements **VP-RULE-0011**.
 
-| Scenario | Rule | Expected oracle outcome |
-|----------|------|-------------------------|
-| **VP-CS-0001** | VP-RULE-0001 | `satisfied` |
-| **VP-CS-0002** | VP-RULE-0002 | `indeterminate` |
+**Supported assertion types** (via reference oracle dispatch): **`body_equality`**, **`normalized_text`**. The reference interpreter registers **2** assertion evaluators (`BodyEqualityEvaluator`, `NormalizedTextEvaluator`).
+
+**Spec-published VP-CS count:** **5** fixtures (**VP-CS-0001**, **VP-CS-0002**, **VP-CS-0011**–**0013**).
+
+| Scenario | Rule | Assertion type | Expected oracle outcome |
+|----------|------|----------------|-------------------------|
+| **VP-CS-0001** | VP-RULE-0001 | `minimal` | `satisfied` |
+| **VP-CS-0002** | VP-RULE-0002 | `minimal` | `indeterminate` |
+| **VP-CS-0011** | VP-RULE-0011 | `normalized_text` | `satisfied` |
+| **VP-CS-0012** | VP-RULE-0011 | `normalized_text` | `not_satisfied` |
+| **VP-CS-0013** | VP-RULE-0011 | `normalized_text` | `indeterminate` |
 
 Local fixtures under `crates/vp-conformance-scenarios/tests/fixtures/` remain for isolated unit tests and harness development—they are not normative scenario ownership.
 
@@ -272,7 +280,7 @@ Before merge or local integration with sibling repositories, run the readiness g
 ./scripts/readiness-gate.sh
 ```
 
-The script runs `cargo fmt --check`, `cargo clippy`, `cargo test`, a CLI boot check, and smoke conformance runs against `../veritypay-spec/spec/conformance/scenarios/VP-CS-0001.toml` and `VP-CS-0002.toml` when the sibling specification checkout is present. It mirrors the readiness process used in [`veritypay-reference`](https://github.com/VerityPay-Inc/veritypay-reference) and [`veritypay-tooling`](https://github.com/VerityPay-Inc/veritypay-tooling). Any failing step exits non-zero.
+The script runs `cargo fmt --check`, `cargo clippy`, `cargo test`, a CLI boot check, and smoke conformance runs against `../veritypay-spec/spec/conformance/scenarios/` fixtures **VP-CS-0001**, **VP-CS-0002**, and **VP-CS-0011**–**0013** when the sibling specification checkout is present. It mirrors the readiness process used in [`veritypay-reference`](https://github.com/VerityPay-Inc/veritypay-reference) and [`veritypay-tooling`](https://github.com/VerityPay-Inc/veritypay-tooling). Any failing step exits non-zero.
 
 ## Repository readiness criteria
 
@@ -286,7 +294,7 @@ Downstream repositories may depend on `veritypay-conformance` when all of the fo
 | Human and JSON report renderers produce stable output | ✓ |
 | Public contract declared in [ADR-0004](docs/adrs/0004-conformance-public-contract.md) | ✓ |
 | Reference oracle baseline documented via [veritypay-reference ADR-0007](https://github.com/VerityPay-Inc/veritypay-reference/blob/main/docs/adrs/0007-reference-interpreter-public-contract.md) | ✓ |
-| Spec-published VP-CS smoke (`VP-CS-0001`, `VP-CS-0002`) passes with matching stub adapter | ✓ |
+| Spec-published VP-CS smoke (**VP-CS-0001**, **VP-CS-0002**, **VP-CS-0011**–**0013**) passes with matching stub adapter | ✓ |
 
 **Deferred:** multi-scenario suite discovery, external implementation adapters, org-wide reusable CI workflows, and VP-CS registry-backed catalog discovery.
 

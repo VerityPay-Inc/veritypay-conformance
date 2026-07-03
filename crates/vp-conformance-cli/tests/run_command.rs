@@ -26,6 +26,21 @@ fn sibling_spec_vp_cs_0002_path() -> PathBuf {
         .join("../../../veritypay-spec/spec/conformance/scenarios/VP-CS-0002.toml")
 }
 
+fn sibling_spec_vp_cs_0011_path() -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("../../../veritypay-spec/spec/conformance/scenarios/VP-CS-0011.toml")
+}
+
+fn sibling_spec_vp_cs_0012_path() -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("../../../veritypay-spec/spec/conformance/scenarios/VP-CS-0012.toml")
+}
+
+fn sibling_spec_vp_cs_0013_path() -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("../../../veritypay-spec/spec/conformance/scenarios/VP-CS-0013.toml")
+}
+
 fn bin_path() -> PathBuf {
     PathBuf::from(env!("CARGO_BIN_EXE_vp-conformance"))
 }
@@ -213,6 +228,144 @@ fn optional_sibling_spec_vp_cs_0002_mismatched_stub_fails_when_present() {
 
     assert_eq!(output.report().failed(), 1);
     assert!(output.rendered().contains("✗ VP-CS-0002"));
+    assert!(output.rendered().contains("Outcome mismatch"));
+    assert_eq!(
+        exit_code_from_report(output.report()),
+        EXIT_CONFORMANCE_FAILURE
+    );
+}
+
+#[test]
+fn optional_sibling_spec_vp_cs_0011_matching_stub_passes_when_present() {
+    let scenario = sibling_spec_vp_cs_0011_path();
+    if !scenario.is_file() {
+        eprintln!("skipping: sibling {} not found", scenario.display());
+        return;
+    }
+
+    let output = run_scenario(&RunOptions::new(
+        scenario,
+        "stub",
+        Outcome::Satisfied,
+        OutputFormat::Human,
+    ))
+    .expect("spec VP-CS-0011 smoke run");
+
+    assert_eq!(output.report().passed(), 1);
+    assert!(output.rendered().contains("✓ VP-CS-0011"));
+    assert_eq!(exit_code_from_report(output.report()), EXIT_SUCCESS);
+}
+
+#[test]
+fn optional_sibling_spec_vp_cs_0011_mismatched_stub_fails_when_present() {
+    let scenario = sibling_spec_vp_cs_0011_path();
+    if !scenario.is_file() {
+        eprintln!("skipping: sibling {} not found", scenario.display());
+        return;
+    }
+
+    let output = run_scenario(&RunOptions::new(
+        scenario,
+        "stub",
+        Outcome::NotSatisfied,
+        OutputFormat::Human,
+    ))
+    .expect("spec VP-CS-0011 mismatch smoke run");
+
+    assert_eq!(output.report().failed(), 1);
+    assert!(output.rendered().contains("✗ VP-CS-0011"));
+    assert!(output.rendered().contains("Outcome mismatch"));
+    assert_eq!(
+        exit_code_from_report(output.report()),
+        EXIT_CONFORMANCE_FAILURE
+    );
+}
+
+#[test]
+fn optional_sibling_spec_vp_cs_0012_matching_stub_passes_when_present() {
+    let scenario = sibling_spec_vp_cs_0012_path();
+    if !scenario.is_file() {
+        eprintln!("skipping: sibling {} not found", scenario.display());
+        return;
+    }
+
+    let output = run_scenario(&RunOptions::new(
+        scenario,
+        "stub",
+        Outcome::NotSatisfied,
+        OutputFormat::Human,
+    ))
+    .expect("spec VP-CS-0012 smoke run");
+
+    assert_eq!(output.report().passed(), 1);
+    assert!(output.rendered().contains("✓ VP-CS-0012"));
+    assert_eq!(exit_code_from_report(output.report()), EXIT_SUCCESS);
+}
+
+#[test]
+fn optional_sibling_spec_vp_cs_0012_mismatched_stub_fails_when_present() {
+    let scenario = sibling_spec_vp_cs_0012_path();
+    if !scenario.is_file() {
+        eprintln!("skipping: sibling {} not found", scenario.display());
+        return;
+    }
+
+    let output = run_scenario(&RunOptions::new(
+        scenario,
+        "stub",
+        Outcome::Satisfied,
+        OutputFormat::Human,
+    ))
+    .expect("spec VP-CS-0012 mismatch smoke run");
+
+    assert_eq!(output.report().failed(), 1);
+    assert!(output.rendered().contains("✗ VP-CS-0012"));
+    assert!(output.rendered().contains("Outcome mismatch"));
+    assert_eq!(
+        exit_code_from_report(output.report()),
+        EXIT_CONFORMANCE_FAILURE
+    );
+}
+
+#[test]
+fn optional_sibling_spec_vp_cs_0013_matching_stub_passes_when_present() {
+    let scenario = sibling_spec_vp_cs_0013_path();
+    if !scenario.is_file() {
+        eprintln!("skipping: sibling {} not found", scenario.display());
+        return;
+    }
+
+    let output = run_scenario(&RunOptions::new(
+        scenario,
+        "stub",
+        Outcome::Indeterminate,
+        OutputFormat::Human,
+    ))
+    .expect("spec VP-CS-0013 smoke run");
+
+    assert_eq!(output.report().passed(), 1);
+    assert!(output.rendered().contains("✓ VP-CS-0013"));
+    assert_eq!(exit_code_from_report(output.report()), EXIT_SUCCESS);
+}
+
+#[test]
+fn optional_sibling_spec_vp_cs_0013_mismatched_stub_fails_when_present() {
+    let scenario = sibling_spec_vp_cs_0013_path();
+    if !scenario.is_file() {
+        eprintln!("skipping: sibling {} not found", scenario.display());
+        return;
+    }
+
+    let output = run_scenario(&RunOptions::new(
+        scenario,
+        "stub",
+        Outcome::Satisfied,
+        OutputFormat::Human,
+    ))
+    .expect("spec VP-CS-0013 mismatch smoke run");
+
+    assert_eq!(output.report().failed(), 1);
+    assert!(output.rendered().contains("✗ VP-CS-0013"));
     assert!(output.rendered().contains("Outcome mismatch"));
     assert_eq!(
         exit_code_from_report(output.report()),

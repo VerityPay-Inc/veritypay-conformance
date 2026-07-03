@@ -148,3 +148,29 @@ description = "Minimal claim is satisfied by matching evidence."
     assert_eq!(context.claim().assertion.body, "alpha");
     assert_eq!(context.evidence().content.body, "alpha");
 }
+
+#[test]
+fn whitespace_only_evidence_content_body_loads() {
+    let contents = r#"
+scenario_id = "VP-CS-0013"
+protocol_version = "vp-protocol-draft"
+
+[claim]
+claim_id = "claim-001"
+subject = "subject-alpha"
+assertion_type = "normalized_text"
+assertion_body = "Hello"
+
+[evidence]
+evidence_id = "evidence-001"
+claim_id = "claim-001"
+content_type = "document"
+content_body = "     "
+"#;
+
+    let context = ScenarioLoader::new()
+        .load_str(contents, "whitespace-evidence.toml")
+        .expect("whitespace-only evidence body");
+
+    assert_eq!(context.evidence().content.body, "     ");
+}

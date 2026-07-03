@@ -60,3 +60,64 @@ fn optional_sibling_spec_vp_cs_0002_loads_when_present() {
     assert_eq!(context.evidence().claim_id.as_str(), "claim-999");
     assert_eq!(context.metadata().get("source_rfc"), Some("VP-RFC-0002"));
 }
+
+fn sibling_spec_vp_cs_path(scenario_id: &str) -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(format!(
+        "../../../veritypay-spec/spec/conformance/scenarios/{scenario_id}.toml"
+    ))
+}
+
+#[test]
+fn optional_sibling_spec_vp_cs_0011_loads_normalized_text_when_present() {
+    let fixture = sibling_spec_vp_cs_path("VP-CS-0011");
+    if !fixture.is_file() {
+        eprintln!("skipping: sibling {} not found", fixture.display());
+        return;
+    }
+
+    let context = ScenarioLoader::new()
+        .load(&ScenarioLoadOptions::new(&fixture))
+        .expect("load spec VP-CS-0011");
+
+    assert_eq!(context.scenario_id().as_str(), "VP-CS-0011");
+    assert_eq!(context.claim().assertion.assertion_type, "normalized_text");
+    assert_eq!(context.claim().assertion.body, "Hello    World");
+    assert_eq!(context.evidence().content.body, "  Hello World  ");
+    assert_eq!(context.metadata().get("source_rfc"), Some("VP-RFC-0011"));
+}
+
+#[test]
+fn optional_sibling_spec_vp_cs_0012_loads_normalized_text_when_present() {
+    let fixture = sibling_spec_vp_cs_path("VP-CS-0012");
+    if !fixture.is_file() {
+        eprintln!("skipping: sibling {} not found", fixture.display());
+        return;
+    }
+
+    let context = ScenarioLoader::new()
+        .load(&ScenarioLoadOptions::new(&fixture))
+        .expect("load spec VP-CS-0012");
+
+    assert_eq!(context.scenario_id().as_str(), "VP-CS-0012");
+    assert_eq!(context.claim().assertion.assertion_type, "normalized_text");
+    assert_eq!(context.claim().assertion.body, "Hello");
+    assert_eq!(context.evidence().content.body, "hello");
+}
+
+#[test]
+fn optional_sibling_spec_vp_cs_0013_loads_normalized_text_when_present() {
+    let fixture = sibling_spec_vp_cs_path("VP-CS-0013");
+    if !fixture.is_file() {
+        eprintln!("skipping: sibling {} not found", fixture.display());
+        return;
+    }
+
+    let context = ScenarioLoader::new()
+        .load(&ScenarioLoadOptions::new(&fixture))
+        .expect("load spec VP-CS-0013");
+
+    assert_eq!(context.scenario_id().as_str(), "VP-CS-0013");
+    assert_eq!(context.claim().assertion.assertion_type, "normalized_text");
+    assert_eq!(context.claim().assertion.body, "Hello");
+    assert_eq!(context.evidence().content.body, "     ");
+}

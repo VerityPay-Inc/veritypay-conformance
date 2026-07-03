@@ -4,7 +4,7 @@
 
 This roadmap is **not date-driven**. Milestones complete when their success criteria are met—not when a quarter ends. Progress aligns with [Phase II Platform Plan](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/docs/05-governance/PHASE_II_PLATFORM_PLAN.md) and the conformance role defined in [CONFORMANCE_MODEL.md](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/docs/03-development/CONFORMANCE_MODEL.md).
 
-**Current status:** **Repository Ready** — Milestones A–G complete; maintenance and extension mode for broader VP-CS coverage.
+**Current status:** **Repository Ready** — Milestones A–G complete; **G.6** adds Platform 1.3 **`normalized_text`** VP-CS coverage; maintenance and extension mode for broader scenario sets.
 
 ---
 
@@ -580,6 +580,35 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 
 **Milestone status:** **Complete**.
 
+### G.6 — Execute VP-CS-0011–0013 (Platform 1.3 normalized_text)
+
+**Goal:** Run published **`normalized_text`** fixtures (**VP-CS-0011**–**0013**) through the existing pipeline with no CLI or adapter changes.
+
+**Prerequisite:** **VP-CS-0011**–**0013** in `veritypay-spec`; `veritypay-reference` **VP-RULE-0011** and **NormalizedTextEvaluator** (Platform 1.3).
+
+**Outputs:**
+
+- Readiness gate smoke for **VP-CS-0011** (`satisfied`), **VP-CS-0012** (`not_satisfied`), **VP-CS-0013** (`indeterminate`)
+- Integration tests: matching stub outcomes → PASS; intentional mismatches → FAIL
+- Spec loader tests asserting `assertion_type = normalized_text` flows unchanged into the reference oracle
+- README Platform 1.3 semantic coverage table
+
+**Success criteria:**
+
+- [x] `vp-conformance run` executes **VP-CS-0011**–**0013** with matching stub outcomes
+- [x] Oracle dispatches **`normalized_text`** via reference interpreter (no conformance-side filtering)
+- [x] Stub adapter outcome mismatch surfaces as conformance failure with unchanged exit codes
+- [x] No comparison engine, adapter API, or CLI changes
+
+**Not included:**
+
+- VP-RFC-0011 acceptance in spec
+- Platform 1.3 platform release declaration (Platform 1.2 remains current)
+- Multi-scenario suite discovery
+- External implementation adapters
+
+**Milestone status:** **Complete**.
+
 **Not included:**
 
 - Hosted conformance-as-a-service
@@ -601,7 +630,8 @@ Downstream repositories may depend on `veritypay-conformance` when all criteria 
 | Reports suitable for local and CI review | `HumanReportRenderer`, `JsonReportRenderer` (F.2, F.3) |
 | Public contract declared | [ADR-0004](docs/adrs/0004-conformance-public-contract.md) |
 | Reference oracle baseline documented | [veritypay-reference ADR-0007](https://github.com/VerityPay-Inc/veritypay-reference/blob/main/docs/adrs/0007-reference-interpreter-public-contract.md) |
-| Spec-published VP-CS smoke | `../veritypay-spec/spec/conformance/scenarios/VP-CS-0001.toml`, `VP-CS-0002.toml` (G.2, G.5) |
+| Spec-published VP-CS smoke | `../veritypay-spec/spec/conformance/scenarios/VP-CS-0001.toml`, `VP-CS-0002.toml`, **VP-CS-0011**–**0013** (G.2, G.5, G.6) |
+| Platform 1.3 semantic coverage | **`normalized_text`** via **VP-CS-0011**–**0013**; **2** reference evaluators; **5** VP-CS fixtures |
 
 **Explicitly deferred:** VP-CS registry-backed catalog discovery, multi-scenario suite discovery, external implementation adapters, org-wide reusable GitHub Actions workflows.
 
@@ -611,17 +641,18 @@ Downstream repositories may depend on `veritypay-conformance` when all criteria 
 
 The conformance suite enters **maintenance and extension** mode: broader VP-CS coverage, richer trace comparison, and Edition-aware scenario sets as spec governance defines them.
 
-### Platform 1.3 — assertion evaluator dispatch (preparation)
+### Platform 1.3 — normalized_text conformance (G.6)
 
-Draft protocol RFCs **VP-RFC-0005** (*Assertion Types*) and **VP-RFC-0006** (*Assertion Evaluation Dispatch*) introduce deterministic selection of evaluation semantics from `assertion_type`. **Platform 1.3** will align conformance comparison with that dispatch model.
+Draft [VP-RFC-0011](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/rfcs/0011-normalized-text-assertion.md) introduces **`normalized_text`** evaluated by **VP-RULE-0011**. **Platform 1.3** remains **in progress** in `veritypay-spec`; **Platform 1.2** remains the current platform release.
 
 | Principle | Detail |
 |-----------|--------|
-| **Compare semantics** | Conformance compares **evaluator behavior** and verification outcomes — not evaluator implementation architecture (modules, class names, or internal dispatch tables) |
-| **Oracle baseline** | `veritypay-reference` implements dispatch per [ADR-0009](https://github.com/VerityPay-Inc/veritypay-reference/blob/main/docs/adrs/0009-assertion-evaluator-architecture.md) |
-| **Fixtures** | Existing **VP-CS-0001** / **VP-CS-0002** unchanged until spec publishes fixture alignment |
+| **Compare semantics** | Conformance compares **evaluator behavior** and verification outcomes — not evaluator implementation architecture |
+| **Oracle baseline** | `veritypay-reference` dispatches **`body_equality`** and **`normalized_text`** via **2** evaluators per [ADR-0009](https://github.com/VerityPay-Inc/veritypay-reference/blob/main/docs/adrs/0009-assertion-evaluator-architecture.md) |
+| **Fixtures** | **VP-CS-0011**–**0013** published and executable; **VP-CS-0001** / **VP-CS-0002** unchanged |
+| **Pipeline** | `assertion_type` flows unchanged: ScenarioLoader → ReferenceOracle → reference dispatch |
 
-No conformance code or fixture changes are required for this roadmap note.
+No CLI or adapter changes were required — the existing execution pipeline reuses spec-published fixtures.
 
 **Explicitly deferred** (see [ADR-0003 — Future extensions](docs/adrs/0003-conformance-architecture.md#future-extensions)):
 
