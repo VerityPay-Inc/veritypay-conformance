@@ -235,7 +235,7 @@ Point `--scenario` at any TOML file in that directory (for example `VP-CS-0001.t
 
 **Platform release:** **[Platform 1.2](https://github.com/VerityPay-Inc/veritypay-spec/blob/main/PLATFORM_RELEASES.md)** remains the current platform release in `veritypay-spec`. **Platform 1.3** is **in progress** — draft **`normalized_text`** scenarios are executable when sibling `veritypay-reference` implements **VP-RULE-0011**.
 
-**Supported assertion types** (via reference oracle dispatch): **`body_equality`**, **`normalized_text`**. The reference interpreter registers **2** assertion evaluators (`BodyEqualityEvaluator`, `NormalizedTextEvaluator`).
+**Supported assertion types** (via reference oracle dispatch): **`body_equality`**, **`minimal`** (alias), **`normalized_text`**. The reference interpreter registers **2** assertion evaluators (`BodyEqualityEvaluator`, `NormalizedTextEvaluator`); **`minimal`** dispatches to `BodyEqualityEvaluator`.
 
 **Spec-published VP-CS count:** **5** fixtures (**VP-CS-0001**, **VP-CS-0002**, **VP-CS-0011**–**0013**).
 

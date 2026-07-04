@@ -511,7 +511,7 @@ Each milestone below includes **Goal**, **Outputs**, **Success criteria**, and *
 **Success criteria:**
 
 - [x] Script runs fmt, clippy, and workspace tests in order
-- [x] Script smoke-runs `vp-conformance run` against spec-published **VP-CS-0001** when sibling `veritypay-spec` is present
+- [x] Script smoke-runs `vp-conformance run` against all five spec-published VP-CS fixtures (**VP-CS-0001**, **VP-CS-0002**, **VP-CS-0011**–**0013**) when sibling `veritypay-spec` is present (see G.5, G.6)
 - [x] Script skips smoke run with clear message when spec fixture is absent
 - [x] Script exits non-zero on any failing step
 
